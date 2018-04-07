@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import models as dbHandler
 #create the application.
 app = Flask(__name__)
@@ -27,6 +27,14 @@ def logout():
 	dbHandler.logged_in = False
 	return render_template('logged_out.html')
 
+@app.route('/createpost', methods = ['POST', 'GET'])
+def createpost():
+	if dbHandler.logged_user == "":
+		return redirect(url_for('signin'))
+	if request.method == 'POST':
+		return render_template('post_created.html' , msg = dbHandler.insertPost(request))
+	else:
+		return render_template('postIt.html')
 if __name__ == '__main__':
     app.debug = True
     app.run()
