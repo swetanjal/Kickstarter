@@ -5,7 +5,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('index.html', msg  = "Display something", logged_user = dbHandler.logged_user)
+	x = dbHandler.getPost()
+	return render_template('index.html', msg  = "Display something", logged_user = dbHandler.logged_user, l=x)
 
 @app.route('/Signup' , methods = ['POST' , 'GET'])
 def signup():

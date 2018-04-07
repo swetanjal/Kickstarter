@@ -51,6 +51,15 @@ def insertPost(request):
 	cursor = con.cursor()
 	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, username text)')
 	cursor.execute("INSERT INTO posts (id , title, about, username) VALUES (NULL,?,?,?)", (title , about, logged_user))
+	con.commit()
 	con.close()
 	return ("Post created successfully!")
-
+#Debugger Code
+def getPost():
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, username text)')
+	cursor.execute("select * from posts")
+	lis = cursor.fetchall()
+	return lis
+##############
