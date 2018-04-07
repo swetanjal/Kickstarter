@@ -25,6 +25,7 @@ def insertUser(request):
     return ("Welcome "+username+"!")
 
 def authenticateUser(request):
+	global logged_user
 	con = sql.connect("database.db")
 	username = request.form['username']
 	password = request.form['password']
