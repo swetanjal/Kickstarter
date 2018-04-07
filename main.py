@@ -14,6 +14,13 @@ def signup():
 	else:
 		return render_template('signup.html')
 
+@app.route('/Signin' , methods = ['POST' , 'GET'])
+def signin():
+	if request.method == 'POST':
+		return render_template('logged_in.html', msg = dbHandler.authenticateUser(request))
+	else:
+		return render_template('signin.html')
+
 if __name__ == '__main__':
     app.debug = True
     app.run()
