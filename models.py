@@ -37,9 +37,20 @@ def authenticateUser(request):
 	if row:
 		logged_in = sha256_crypt.verify(password, row[0])
 		if logged_in == True:
-		#logged_in = True
+		
 			logged_user = username
 			con.close()
 			return ("Successfully Logged in. Welcome back " + username + "!")
 	con.close()
 	return ("Invalid password or username!")
+
+def insertPost(request):
+	con = sql.connect("database.db")
+	title = request.form['title']
+	about = request.form['about']
+	cursor = con.cursor()
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, username text)')
+	cursor.execute("INSERT INTO posts (id , title, about, username) VALUES (NULL,?,?,?)", (title , about, logged_user))
+	con.close()
+	return ("Post created successfully!")
+
