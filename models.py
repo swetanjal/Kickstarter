@@ -62,4 +62,24 @@ def getPost():
 	cursor.execute("select * from posts")
 	lis = cursor.fetchall()
 	return lis
+
+def getMyPosts():
+	global logged_user
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, username text)')
+	cursor.execute("select * from posts where username='%s'" % logged_user)
+	listIt = cursor.fetchall()
+	return listIt
+
+def deletePost(id):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, username text)')
+	cursor.execute("delete from posts where id='%s'" % id)
+	con.commit()
+	con.close()
+
+def editPost(id):
+
 ##############

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<title>Your Wall</title>
+<a href="{{url_for('logout')}}">Logout</a> 
+<a href="{{url_for('createpost')}}">Create Post</a>
+<h2>Your Posts</h2>
+<ul>
+	{% for post in posts %}
+		<ol>
+			<li>{{ post[0] }}</li>
+			<li>{{ post[1] }}</li>
+			<li>{{ post[2] }}</li>
+			<li>{{ post[3] }}</li>
+		</ol>
+	<form action='/deletePost/{{ post[0] }}' method='POST'>
+		<button name="deleteIt" type="submit">Delete</button>
+	</form>
+	<form action='/editPost/{{ post[0] }}' method='POST'>
+		<button name="editIt" type="submit">Edit</button>
+	</form>
+	{% endfor %}
+</ul>
