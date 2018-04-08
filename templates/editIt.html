@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
 <title>Edit Post</title>
-<form action="/createpost" method='POST'>
+<form action="/editFinalize/{{ id }}" method='POST'>
 	Project Name:
 	<br>
-	<input type="text" name="title" value="">
+	<input type="text" name="title" value={{ title }}>
 	<br>
 	Description:
 	<br>
-	<input type="text" name="about" value="">
+	<input type="text" name="about" value={{ des }}>
 	<br>
 	Required Funding:
 	<br>
-	<input type="text" name="funding" value="">
+	<input type="text" name="funding" value={{ fund }}>
 	<br>
-	<input type="submit" value="Create Post!">
+	<button type="submit">Edit Post!</button>
 	<br>
 </form>	
 </html>

@@ -20,7 +20,7 @@ def signin():
 	if request.method == 'POST':
 		ret = dbHandler.authenticateUser(request)
 		if dbHandler.logged_user:
-			return redirect(url_for('dashboard'))
+			return redirect(url_for('display_dash'))
 		return render_template('logged_in.html', msg = ret)
 	else:
 		return render_template('signin.html')
@@ -53,10 +53,16 @@ def deletePost(id):
 	dbHandler.deletePost(id)
 	return redirect(url_for('display_dash'))
 
-@app.route('/editPost/<int:id>', methods = ['POST','GET'])
-def editPost(id):
-	x=dbHandler.editPost(id)
-	return render_template('editIt.html')
+@app.route('/editPostCaller/<int:id>', methods = ['POST','GET'])
+def editPostCall(id):
+	x = dbHandler.editPostCall(id)
+	return render_template('editIt.html', id = x[0][0], title = x[0][1], des = x[0][2], fund = x[0][3])
+
+@app.route('/editFinalize/<int:id>', methods = ['POST','GET'])
+def editFinal(id):
+	if request.method == 'POST':
+		dbHandler.editPost(id, request)
+		return redirect(url_for('display_dash'))
 
 if __name__ == '__main__':
     app.debug = True
