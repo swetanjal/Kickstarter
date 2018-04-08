@@ -48,9 +48,10 @@ def insertPost(request):
 	con = sql.connect("database.db")
 	title = request.form['title']
 	about = request.form['about']
+	fund = request.form['fund']
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, username text)')
-	cursor.execute("INSERT INTO posts (id , title, about, username) VALUES (NULL,?,?,?)", (title , about, logged_user))
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, fund integer, username text)')
+	cursor.execute("INSERT INTO posts (id , title, about, fund, username) VALUES (NULL,?,?,?,?)", (title , about, fund, logged_user))
 	con.commit()
 	con.close()
 	return ("Post created successfully!")
@@ -58,7 +59,7 @@ def insertPost(request):
 def getPost():
 	con = sql.connect("database.db")
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, username text)')
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, fund integer, username text)')
 	cursor.execute("select * from posts")
 	lis = cursor.fetchall()
 	return lis
@@ -67,7 +68,7 @@ def getMyPosts():
 	global logged_user
 	con = sql.connect("database.db")
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, username text)')
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, fund integer, username text)')
 	cursor.execute("select * from posts where username='%s'" % logged_user)
 	listIt = cursor.fetchall()
 	return listIt
@@ -75,7 +76,7 @@ def getMyPosts():
 def deletePost(id):
 	con = sql.connect("database.db")
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, username text)')
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, fund integer, username text)')
 	cursor.execute("delete from posts where id='%s'" % id)
 	con.commit()
 	con.close()
@@ -83,7 +84,7 @@ def deletePost(id):
 def editPostCall(id):
 	con = sql.connect("database.db")
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, username text)')
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, fund integer, username text)')
 	cursor.execute("select * from posts where id='%s'" % id)
 	listIt = cursor.fetchall()
 	return listIt
@@ -91,10 +92,11 @@ def editPostCall(id):
 def editPost(id_num, request):
 	con = sql.connect("database.db")
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, username text)')
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, fund integer, username text)')
 	title = request.form['title']
 	about = request.form['about']
-	cursor.execute("""UPDATE posts SET title=? ,about=? WHERE id=?""",(title,about,id_num))
+	fund = request.form['fund']
+	cursor.execute("""UPDATE posts SET title=? ,about=? , fund=? WHERE id=?""",(title,about,fund,id_num))
 	con.commit()
 	con.close()
 
