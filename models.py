@@ -81,7 +81,7 @@ def deletePost(id):
 	con.commit()
 	con.close()
 
-def editPostCall(id):
+def getPostInfo(id):
 	con = sql.connect("database.db")
 	cursor = con.cursor()
 	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, fund integer, username text)')

@@ -56,8 +56,8 @@ def deletePost(id):
 	dbHandler.deletePost(id)
 	return redirect(url_for('display_dash'))
 
-@app.route('/getPostInfoer/<int:id>', methods = ['POST','GET'])
-def getPostInfo(id):
+@app.route('/editPostCaller/<int:id>', methods = ['POST','GET'])
+def editPostCall(id):
 	x = dbHandler.getPostInfo(id)
 	if not dbHandler.logged_user == x[0][4]:
 		return "<!DOCTYPE html><h1>NOT PERMITTED</h1>"
