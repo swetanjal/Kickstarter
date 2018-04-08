@@ -50,12 +50,15 @@ def display_dash():
 
 @app.route('/deletePost/<int:id>', methods = ['POST','GET'])
 def deletePost(id):
+	x = dbHandler.getPostInfo(id)
+	if not dbHandler.logged_user == x[0][4]:
+		return "<!DOCTYPE html><h1>NOT PERMITTED</h1>"
 	dbHandler.deletePost(id)
 	return redirect(url_for('display_dash'))
 
-@app.route('/editPostCaller/<int:id>', methods = ['POST','GET'])
-def editPostCall(id):
-	x = dbHandler.editPostCall(id)
+@app.route('/getPostInfoer/<int:id>', methods = ['POST','GET'])
+def getPostInfo(id):
+	x = dbHandler.getPostInfo(id)
 	if not dbHandler.logged_user == x[0][4]:
 		return "<!DOCTYPE html><h1>NOT PERMITTED</h1>"
 	return render_template('editIt.html', id = x[0][0], title = x[0][1], des = x[0][2], fund = x[0][3])
