@@ -6,7 +6,8 @@ app = Flask(__name__)
 @app.route('/')
 def home():
 	posts = dbHandler.getPost()
-	return render_template('index.html', msg  = "Display something", logged_user = dbHandler.logged_user, posts=posts)
+	backers = dbHandler.getBackers()
+	return render_template('index.html', msg  = "Display something", logged_user = dbHandler.logged_user, posts=posts, backers=backers)
 
 @app.route('/Signup' , methods = ['POST' , 'GET'])
 def signup():
@@ -81,6 +82,19 @@ def project(id):
 		return render_template('project_display.html', id = x[0][0], title = x[0][1], about = x[0][2], fund = x[0][3])
 	else:
 		return "Invalid project ID"
+
+@app.route('/project/<int:id>/back', methods = ['POST' , 'GET'])
+def back(id):
+	x = dbHandler.getPostInfo(id)
+	if x:
+		if request.method == 'GET':
+			if dbHandler.logged_in == False:
+				return redirect(url_for('signin'))
+			return render_template('back_project.html', id = x[0][0] , title = x[0][1])
+		else:
+			return dbHandler.backPost(id , request)
+	else:
+		return "You are attempting to back a project with invalid id!"
 
 if __name__ == '__main__':
     app.debug = True

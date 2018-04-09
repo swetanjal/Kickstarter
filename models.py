@@ -26,6 +26,7 @@ def insertUser(request):
 
 def authenticateUser(request):
 	global logged_user
+	global logged_in
 	con = sql.connect("database.db")
 	username = request.form['username']
 	password = request.form['password']
@@ -63,6 +64,14 @@ def getPost():
 	cursor.execute("select * from posts")
 	lis = cursor.fetchall()
 	return lis
+
+def getBackers():
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute('CREATE TABLE IF NOT EXISTS backers(project_id integer, username text, fund integer)')
+	cursor.execute("select * from backers")
+	lis = cursor.fetchall()
+	return lis	
 #############
 def getMyPosts():
 	global logged_user
@@ -101,3 +110,12 @@ def editPost(id_num, request):
 	con.close()
 
 ##############
+def backPost(id_num, request):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute('CREATE TABLE IF NOT EXISTS backers(project_id integer, username text, fund integer)')
+	fund = request.form['fund']
+	cursor.execute("INSERT INTO backers (project_id , username, fund) VALUES (?,?,?)" , (id_num, logged_user, fund))
+	con.commit()
+	con.close()
+	return "Thanks for supporting us!"
