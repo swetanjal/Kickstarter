@@ -63,7 +63,7 @@ def getPost():
 	cursor.execute("select * from posts")
 	lis = cursor.fetchall()
 	return lis
-
+#############
 def getMyPosts():
 	global logged_user
 	con = sql.connect("database.db")

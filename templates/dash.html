@@ -5,12 +5,7 @@
 <h2>Your Posts</h2>
 <ul>
 	{% for post in posts %}
-		<ol>
-			<li>{{ post[0] }}</li>
-			<li>{{ post[1] }}</li>
-			<li>{{ post[2] }}</li>
-			<li>{{ post[3] }}</li>
-		</ol>
+		<a href="/project/{{post[0]}}">{{post[1]}}</a>
 	<form action='/deletePost/{{ post[0] }}' method='POST'>
 		<button name="deleteIt" type="submit">Delete</button>
 	</form>

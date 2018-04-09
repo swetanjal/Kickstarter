@@ -5,8 +5,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-	x = dbHandler.getPost()
-	return render_template('index.html', msg  = "Display something", logged_user = dbHandler.logged_user, l=x)
+	posts = dbHandler.getPost()
+	return render_template('index.html', msg  = "Display something", logged_user = dbHandler.logged_user, posts=posts)
 
 @app.route('/Signup' , methods = ['POST' , 'GET'])
 def signup():
@@ -51,6 +51,8 @@ def display_dash():
 @app.route('/deletePost/<int:id>', methods = ['POST','GET'])
 def deletePost(id):
 	x = dbHandler.getPostInfo(id)
+	if not x:
+		return redirect(url_for('display_dash'))
 	if not dbHandler.logged_user == x[0][4]:
 		return "<!DOCTYPE html><h1>NOT PERMITTED</h1>"
 	dbHandler.deletePost(id)
@@ -59,15 +61,26 @@ def deletePost(id):
 @app.route('/editPostCaller/<int:id>', methods = ['POST','GET'])
 def editPostCall(id):
 	x = dbHandler.getPostInfo(id)
-	if not dbHandler.logged_user == x[0][4]:
-		return "<!DOCTYPE html><h1>NOT PERMITTED</h1>"
-	return render_template('editIt.html', id = x[0][0], title = x[0][1], des = x[0][2], fund = x[0][3])
+	if x:
+		if not dbHandler.logged_user == x[0][4]:
+			return "<!DOCTYPE html><h1>NOT PERMITTED</h1>"
+		return render_template('editIt.html', id = x[0][0], title = x[0][1], des = x[0][2], fund = x[0][3])
+	else:
+		return "Invalid Project Id to edit"
 
 @app.route('/editFinalize/<int:id>', methods = ['POST','GET'])
 def editFinal(id):
 	if request.method == 'POST':
 		dbHandler.editPost(id, request)
 		return redirect(url_for('display_dash'))
+
+@app.route('/project/<int:id>', methods = ['GET'])
+def project(id):
+	x = dbHandler.getPostInfo(id)
+	if x:
+		return render_template('project_display.html', id = x[0][0], title = x[0][1], about = x[0][2], fund = x[0][3])
+	else:
+		return "Invalid project ID"
 
 if __name__ == '__main__':
     app.debug = True

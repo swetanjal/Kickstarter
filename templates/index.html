@@ -8,5 +8,10 @@
 	<a href="{{url_for('logout')}}">Logout</a> 
 {% endif %}
 <a href="{{url_for('createpost')}}">Create Post</a>
+<br>
+<br>
 
-{{l}}
+{% for post in posts %}
+	<a href="/project/{{post[0]}}">{{post[1]}}</a>
+	<br>
+{% endfor %}
