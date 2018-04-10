@@ -2,9 +2,6 @@ import sqlite3 as sql
 from flask import session
 from passlib.hash import sha256_crypt
 
-logged_in = False
-logged_user = ''
-
 def insertUser(request):
     con = sql.connect("database.db")
     username = request.form['username']
@@ -25,8 +22,6 @@ def insertUser(request):
     return ("Welcome "+username+"!")
 
 def authenticateUser(request):
-	global logged_user
-	global logged_in
 	con = sql.connect("database.db")
 	username = request.form['username']
 	password = request.form['password']
@@ -35,17 +30,15 @@ def authenticateUser(request):
 	sqlQuery = "select password from users where (username = '"+ username + "')"
 	cursor.execute(sqlQuery)
 	row = cursor.fetchone()
+	logged_in = False
 	if row:
 		logged_in = sha256_crypt.verify(password, row[0])
 		if logged_in == True:
-		
-			logged_user = username
-			con.close()
-			return ("Successfully Logged in. Welcome back " + username + "!")
+			return logged_in
 	con.close()
-	return ("Invalid password or username!")
+	return logged_in
 
-def insertPost(request):
+def insertPost(request, logged_user):
 	con = sql.connect("database.db")
 	title = request.form['title']
 	about = request.form['about']
@@ -73,8 +66,7 @@ def getBackers():
 	lis = cursor.fetchall()
 	return lis	
 #############
-def getMyPosts():
-	global logged_user
+def getMyPosts(logged_user):
 	con = sql.connect("database.db")
 	cursor = con.cursor()
 	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, fund integer, username text)')
@@ -95,8 +87,15 @@ def getPostInfo(id):
 	cursor = con.cursor()
 	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, fund integer, username text)')
 	cursor.execute("select * from posts where id='%s'" % id)
-	listIt = cursor.fetchall()
-	return listIt
+	post = cursor.fetchone()
+	dicts = {}
+	if post:
+		dicts['id'] = post[0]
+		dicts['title'] = post[1]
+		dicts['about'] = post[2]
+		dicts['fund'] = post[3]
+		dicts['username'] = post[4]
+	return dicts
 
 def editPost(id_num, request):
 	con = sql.connect("database.db")
@@ -110,7 +109,7 @@ def editPost(id_num, request):
 	con.close()
 
 ##############
-def backPost(id_num, request):
+def backPost(id_num, logged_user, request):
 	con = sql.connect("database.db")
 	cursor = con.cursor()
 	cursor.execute('CREATE TABLE IF NOT EXISTS backers(project_id integer, username text, fund integer)')

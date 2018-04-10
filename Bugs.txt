@@ -1,1 +1,1 @@
--> Refreshing is doing the same action twice!
+-> Refreshing is doing the same action twice (Backing project, signup). Solution is to redirect to a page!
