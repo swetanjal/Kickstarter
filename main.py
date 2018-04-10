@@ -89,7 +89,7 @@ def project(id):
 	if post:
 		return render_template('project_display.html', id = post['id'], title = post['title'], about = post['about'], fund = post['fund'])
 	else:
-		return "Invalid project ID"
+		return render_template('invalid_project_display.html')
 
 @app.route('/project/<int:id>/back', methods = ['POST' , 'GET'])
 def back(id):
@@ -100,9 +100,9 @@ def back(id):
 				return redirect(url_for('signin'))
 			return render_template('back_project.html', id = post['id'] , title = post['title'])
 		else:
-			return dbHandler.backPost(id , session['username'], request)
+			return render_template('acknowledge_backing.html', msg = dbHandler.backPost(id , session['username'], request))
 	else:
-		return "You are attempting to back a project with invalid id!"
+		return render_template('invlaid_backing.html', msg = "You are attempting to back a project with invalid id!")
 
 if __name__ == '__main__':
     app.debug = True
