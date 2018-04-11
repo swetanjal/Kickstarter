@@ -1,6 +1,17 @@
+<p>Have an account? <a href="{{url_for('signin')}}">Login</a></p>
 <h1>Signup</h1>
 <form action="/Signup" method="post">
-	<input type="text" name="username" placeholder="Username" required>
+	<input type="text" name="fullname" placeholder="Full Name" required>
+	<br>
+	<input type="text" name="username" placeholder="Email" required>
+	<br>
+	<input type="text" name="verify_username" placeholder="Re-enter email" required>
+	<br>
 	<input type="password" name="password" placeholder="Password" required>
-	<input type="submit" value="Signup">
+	<br>
+	<input type="password" name="verify_password" placeholder="Re-enter password" required>
+	<br>
+	<input type="submit" value="Create account">
 </form>
+
+{{invalid_credential}}

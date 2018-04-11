@@ -6,30 +6,58 @@ app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 @app.route('/')
 def home():
+	#Some backend to be added to do the following:
+	#1. Get some stats to be displayed on top.
+	#2. Get the top 5 projects of each category.
+	#The above function needs to be written both in models.py
+	
+	#Debugger code to get all posts and backers
 	posts = dbHandler.getPost()
 	backers = dbHandler.getBackers()
+	
 	if 'username' in session:
-		return render_template('index.html', msg  = "Display something", logged_user = session['username'], posts=posts, backers=backers)
+		return render_template('index.html', profile_pic = "https://www.freepnglogos.com/uploads/googlem-old-google-logo-png-5.png", 
+			                  logged_user = session['username'], posts=posts, backers=backers)
 	else:
-		return render_template('index.html', msg  = "Display something", logged_user = "", posts=posts, backers=backers)
+		return render_template('index.html', profile_pic = "https://www.freepnglogos.com/uploads/googlem-old-google-logo-png-5.png",
+		                       logged_user = "", posts=posts, backers=backers)
+
+def verify(password, verify_password, email, verify_email):
+	#Put some code to do this. Can include regex
+	#By default NULL, else appropriate password too short or invalid email id or emails don't match etc.
+	status_message = ""
+	return status_message
 
 @app.route('/Signup' , methods = ['POST' , 'GET'])
 def signup():
+	invalid_credential = ""
 	if request.method == 'POST':
-		return render_template('welcome_user.html', msg = dbHandler.insertUser(request))
+		invalid_credential = verify(request.form['password'], request.form['verify_password'], 
+			request.form['username'], request.form['verify_username'])
+		if invalid_credential == "":
+			success = dbHandler.insertUser(request)
+			if success:
+				status = dbHandler.authenticateUser(request)
+				if status:
+					session['username'] = request.form['username']
+					return redirect(url_for('home'))
+			else:
+				invalid_credential = "Email has already been taken!"
+		return render_template('signup.html' , invalid_credential = invalid_credential)
 	else:
-		return render_template('signup.html')
+		return render_template('signup.html' , invalid_credential = invalid_credential)
 
 @app.route('/Signin' , methods = ['POST' , 'GET'])
 def signin():
+	invalid_credential = "Invalid Password or username!"
 	if request.method == 'POST':
 		status = dbHandler.authenticateUser(request)
 		if status:
 			session['username'] = request.form['username']
-			return redirect(url_for('display_dash'))
-		return render_template('logged_in.html', msg = "Invalid username or Password!")
+			return redirect(url_for('home'))
+		return render_template('signin.html', invalid_credential = invalid_credential)
 	else:
-		return render_template('signin.html')
+		return render_template('signin.html', invalid_credential = "")
 
 @app.route('/logout')
 def logout():
@@ -46,7 +74,7 @@ def createpost():
 		return render_template('postIt.html')
 
 @app.route('/dashboard')
-def display_dash():
+def dashboard():
 	if 'username' not in session:
 		return redirect(url_for('signin'))
 	else:
@@ -57,12 +85,12 @@ def display_dash():
 def deletePost(id):
 	post = dbHandler.getPostInfo(id)
 	if not post:
-		return redirect(url_for('display_dash'))
+		return redirect(url_for('dashboard'))
 	if 'username' in session:
 		if not session['username'] == post['username']:
 			return "<!DOCTYPE html><h1>NOT PERMITTED</h1>"
 	dbHandler.deletePost(id)
-	return redirect(url_for('display_dash'))
+	return redirect(url_for('dashboard'))
 
 @app.route('/editPostCaller/<int:id>', methods = ['POST','GET'])
 def editPostCall(id):
@@ -81,7 +109,7 @@ def editPostCall(id):
 def editFinal(id):
 	if request.method == 'POST':
 		dbHandler.editPost(id, request)
-		return redirect(url_for('display_dash'))
+		return redirect(url_for('dashboard'))
 
 @app.route('/project/<int:id>', methods = ['GET'])
 def project(id):
