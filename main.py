@@ -62,7 +62,7 @@ def signin():
 @app.route('/logout')
 def logout():
 	session.pop('username', None)
-	return render_template('logged_out.html')
+	return redirect(url_for('home'))
 
 @app.route('/createpost', methods = ['POST', 'GET'])
 def createpost():
