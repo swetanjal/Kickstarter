@@ -9,7 +9,7 @@ def insertUser(request):
     fullname = request.form['fullname']
     password = sha256_crypt.encrypt(password)
     cursor = con.cursor()
-    cursor.execute('CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT)')
+    cursor.execute('CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, fullname TEXT)')
     sqlQuery = "select username from users where (username ='" + username + "')"
     cursor.execute(sqlQuery)
     row = cursor.fetchone()
@@ -18,7 +18,7 @@ def insertUser(request):
     	con.close()
     	return False
     cur = con.cursor()
-    cur.execute("INSERT INTO users (username, password) VALUES (?,?)", (username,password))
+    cur.execute("INSERT INTO users (username, password, fullname) VALUES (?,?,?)", (username, password, fullname))
     con.commit()
     con.close()
     return True
@@ -28,7 +28,7 @@ def authenticateUser(request):
 	username = request.form['username']
 	password = request.form['password']
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT)')
+	cursor.execute('CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, fullname TEXT)')
 	sqlQuery = "select password from users where (username = '"+ username + "')"
 	cursor.execute(sqlQuery)
 	row = cursor.fetchone()
