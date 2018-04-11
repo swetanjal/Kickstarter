@@ -22,9 +22,10 @@ def home():
 		return render_template('index.html', profile_pic = "https://www.freepnglogos.com/uploads/googlem-old-google-logo-png-5.png",
 		                       logged_user = "", posts=posts, backers=backers)
 
-def verify(password, verify_password, email, verify_email):
+def verify(password, verify_password, username, verify_username):
 	#Put some code to do this. Can include regex
-	#By default NULL, else appropriate password too short or invalid email id or emails don't match etc.
+	#Username is basically Email!
+	#By default NULL, else appropriate message: password too short or invalid email id or emails don't match etc.
 	status_message = ""
 	return status_message
 
@@ -64,6 +65,17 @@ def logout():
 	session.pop('username', None)
 	return redirect(url_for('home'))
 
+@app.route('/settings', methods = ['POST' , 'GET'])
+def settings():
+	if 'username' not in session:
+		return redirect(url_for('signin'))
+	user = dbHandler.getUserInfo(session['username'])
+	if request.method == 'POST':
+		dbHandler.updateUser(request , session['username'])
+		user = dbHandler.getUserInfo(session['username'])
+		return render_template('editProfile.html', msg = "Changes Saved", user = user)
+	return render_template('editProfile.html', msg = "", user = user)
+
 @app.route('/createpost', methods = ['POST', 'GET'])
 def createpost():
 	if 'username' not in session:
@@ -78,8 +90,11 @@ def dashboard():
 	if 'username' not in session:
 		return redirect(url_for('signin'))
 	else:
-		posts=dbHandler.getMyPosts(session['username'])
-		return render_template('dash.html', posts=posts)
+		user = dbHandler.getUserInfo(session['username'])
+		user_full_name = user['fullname']
+		created_posts = dbHandler.getMyCreatedPosts(session['username'])
+		backed_posts = []
+		return render_template('dashboard.html', fullname = user_full_name, created_posts = created_posts, backed_posts = backed_posts)
 
 @app.route('/deletePost/<int:id>', methods = ['POST','GET'])
 def deletePost(id):

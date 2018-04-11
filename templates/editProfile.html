@@ -1,0 +1,15 @@
+<h1>Edit Profile</h1>
+<form action="/settings" method="post" enctype="multipart/form-data">
+	<input type="text" name="fullname" value="{{user['fullname']}}" required>
+	<br>
+	<input type="password" name="password" value="{{user['password']}}" required>
+	<br>
+	<input type="password" name="verify_password" value="{{user['password']}}" required>
+	<br>
+	<label for="photo">Upload Image</label>
+	<input type="file" name="photo">
+
+	<input type="submit" value="Submit">
+</form>
+
+{{msg}}
