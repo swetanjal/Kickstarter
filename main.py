@@ -91,10 +91,10 @@ def settings():
 				url = filename
 				img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			dbHandler.updateUser(request , session['username'], img = url)
-			return render_template('editProfile.html', msg = "Changes Saved", user = user, IMG = url)
+			return render_template('editProfile.html', msg = "Changes Saved", user = dbHandler.getUserInfo(session['username']))
 		except:
 			dbHandler.updateUser(request , session['username'], img = url)
-			return render_template('editProfile.html', msg = "Changes Saved", user = user, IMG = url)
+			return render_template('editProfile.html', msg = "Changes Saved", user = dbHandler.getUserInfo(session['username']))
 	return render_template('editProfile.html', msg = "", user = user)	
 
 @app.route('/createpost', methods = ['POST', 'GET'])

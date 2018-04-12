@@ -35,7 +35,7 @@ def insertUser(request):
     	con.close()
     	return False
     cur = con.cursor()
-    cur.execute("INSERT INTO users (username, password, fullname, photo) VALUES (?,?,?,?)", (username, password, fullname, 'https://www.freepnglogos.com/uploads/googlem-old-google-logo-png-5.png'))
+    cur.execute("INSERT INTO users (username, password, fullname, photo) VALUES (?,?,?,?)", (username, password, fullname, 'default.png'))
     con.commit()
     con.close()
     return True
