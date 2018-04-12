@@ -80,8 +80,9 @@ def settings():
 	if 'username' not in session:
 		return redirect(url_for('signin'))
 	user = dbHandler.getUserInfo(session['username'])
-	url = 'default.png' 
+	url = user['photo'] 
 	if request.method == 'POST':
+		#Logic to verify if password and verify password are same to be added
 		user = dbHandler.getUserInfo(session['username'])
 		try:
 			img = request.files['photo']

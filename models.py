@@ -40,17 +40,6 @@ def insertUser(request):
     con.close()
     return True
 
-def updateUser(request, username, img):
-	con = sql.connect("database.db")
-	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, fullname TEXT, photo TEXT)')
-	password = request.form['password']
-	fullname = request.form['fullname']
-	password = sha256_crypt.encrypt(password)
-	cursor.execute("""UPDATE users SET username=? ,password=? , fullname=? , photo=? WHERE username=?""",(username,password,fullname,img,username))
-	con.commit()
-	con.close()
-
 def getUserInfo(username):
 	con = sql.connect("database.db")
 	cursor = con.cursor()
@@ -58,6 +47,23 @@ def getUserInfo(username):
 	cursor.execute("select * from users where username='%s'" % username)
 	user = cursor.fetchone()
 	return userDict(user)
+
+def updateUser(request, username, img):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute('CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, fullname TEXT, photo TEXT)')
+	password = request.form['password']
+	if password == "":
+		user = getUserInfo(username)
+		password = user['password']
+	else:
+		password = sha256_crypt.encrypt(password)
+	fullname = request.form['fullname']
+	cursor.execute("""UPDATE users SET username=? ,password=? , fullname=? , photo=? WHERE username=?""",(username,password,fullname,img,username))
+	con.commit()
+	con.close()
+
+
 
 def authenticateUser(request):
 	con = sql.connect("database.db")
