@@ -168,7 +168,9 @@ def getPost():
 	cursor.execute("select * from posts")
 	lis = cursor.fetchall()
 	ret = [] #Returns a list of dictionary objects
-	return lis
+	for post in lis:
+		ret.append(postDict(post))
+	return ret
 
 def getBackers():
 	con = sql.connect("database.db")

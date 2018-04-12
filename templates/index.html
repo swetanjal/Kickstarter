@@ -14,6 +14,6 @@
 
 
 {% for post in posts %}
-	<a href="/project/{{post[0]}}"><img src="https://ksr-ugc.imgix.net/assets/020/829/781/5d5336c7f983907d3655d46ba57b97a8_original.jpg?q=80&blur=false&w=500&fit=true&v=1523306394&auto=format&s=5703d31b3c9e8a4d3d6b9926f02424d6"></a>
+	<a href="/project/{{post['id']}}"><img src="/static/{{post['img']}}"></a>
 	<br>
 {% endfor %}
