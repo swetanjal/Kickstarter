@@ -3,7 +3,7 @@
 {% if logged_user == "" %}
 	<a href="{{url_for('signin')}}">Signin</a>
 {% else %}
-	<a href="{{url_for('dashboard')}}"><img src="{{profile_pic}}"></a>
+	<a href="{{url_for('dashboard')}}"><img src="./static/{{profile_pic}}"></a>
 	<a href="{{url_for('logout')}}">Logout</a> 
 {% endif %}
 <a href="{{url_for('createpost')}}">Start a project</a>

@@ -1,8 +1,13 @@
+import os
+from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, url_for, session
 import models as dbHandler
 #create the application.
+UPLOAD_FOLDER = './static'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 def home():
@@ -16,10 +21,11 @@ def home():
 	backers = dbHandler.getBackers()
 	
 	if 'username' in session:
-		return render_template('index.html', profile_pic = "https://www.freepnglogos.com/uploads/googlem-old-google-logo-png-5.png", 
+		user = dbHandler.getUserInfo(session['username'])
+		return render_template('index.html', profile_pic = user['photo'], 
 			                  logged_user = session['username'], posts=posts, backers=backers)
 	else:
-		return render_template('index.html', profile_pic = "https://www.freepnglogos.com/uploads/googlem-old-google-logo-png-5.png",
+		return render_template('index.html', profile_pic = "default.png",
 		                       logged_user = "", posts=posts, backers=backers)
 
 def verify(password, verify_password, username, verify_username):
@@ -65,16 +71,31 @@ def logout():
 	session.pop('username', None)
 	return redirect(url_for('home'))
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 @app.route('/settings', methods = ['POST' , 'GET'])
 def settings():
 	if 'username' not in session:
 		return redirect(url_for('signin'))
 	user = dbHandler.getUserInfo(session['username'])
+	url = 'default.png' 
 	if request.method == 'POST':
-		dbHandler.updateUser(request , session['username'])
 		user = dbHandler.getUserInfo(session['username'])
-		return render_template('editProfile.html', msg = "Changes Saved", user = user)
-	return render_template('editProfile.html', msg = "", user = user)
+		try:
+			img = request.files['photo']
+			if img and allowed_file(img.filename):
+				filename = session['username'] + "." + img.filename.rsplit('.', 1)[1].lower()
+				#Feature can be added to remove old photo
+				url = filename
+				img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+			dbHandler.updateUser(request , session['username'], img = url)
+			return render_template('editProfile.html', msg = "Changes Saved", user = user, IMG = url)
+		except:
+			dbHandler.updateUser(request , session['username'], img = url)
+			return render_template('editProfile.html', msg = "Changes Saved", user = user, IMG = url)
+	return render_template('editProfile.html', msg = "", user = user)	
 
 @app.route('/createpost', methods = ['POST', 'GET'])
 def createpost():
@@ -94,7 +115,7 @@ def dashboard():
 		user_full_name = user['fullname']
 		created_posts = dbHandler.getMyCreatedPosts(session['username'])
 		backed_posts = []
-		return render_template('dashboard.html', fullname = user_full_name, created_posts = created_posts, backed_posts = backed_posts)
+		return render_template('dashboard.html', img = user['photo'], fullname = user_full_name, created_posts = created_posts, backed_posts = backed_posts)
 
 @app.route('/deletePost/<int:id>', methods = ['POST','GET'])
 def deletePost(id):

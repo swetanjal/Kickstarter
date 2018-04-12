@@ -27,7 +27,7 @@ def insertUser(request):
     fullname = request.form['fullname']
     password = sha256_crypt.encrypt(password)
     cursor = con.cursor()
-    cursor.execute('CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, fullname TEXT, photo blob)')
+    cursor.execute('CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, fullname TEXT, photo TEXT)')
     sqlQuery = "select username from users where (username ='" + username + "')"
     cursor.execute(sqlQuery)
     row = cursor.fetchone()
@@ -35,28 +35,26 @@ def insertUser(request):
     	con.close()
     	return False
     cur = con.cursor()
-    cur.execute("INSERT INTO users (username, password, fullname, photo) VALUES (?,?,?,NULL)", (username, password, fullname))
+    cur.execute("INSERT INTO users (username, password, fullname, photo) VALUES (?,?,?,?)", (username, password, fullname, 'https://www.freepnglogos.com/uploads/googlem-old-google-logo-png-5.png'))
     con.commit()
     con.close()
     return True
 
-def updateUser(request, username):
+def updateUser(request, username, img):
 	con = sql.connect("database.db")
-	#con.text_factory = str
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, fullname TEXT, photo blob)')
+	cursor.execute('CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, fullname TEXT, photo TEXT)')
 	password = request.form['password']
 	fullname = request.form['fullname']
 	password = sha256_crypt.encrypt(password)
-	img = request.files['photo']
-	cursor.execute("""UPDATE users SET username=? ,password=? , fullname=? , photo=? WHERE username=?""",(username,password,fullname,img.read(),username))
+	cursor.execute("""UPDATE users SET username=? ,password=? , fullname=? , photo=? WHERE username=?""",(username,password,fullname,img,username))
 	con.commit()
 	con.close()
 
 def getUserInfo(username):
 	con = sql.connect("database.db")
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, fullname TEXT, photo blob)')
+	cursor.execute('CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, fullname TEXT, photo TEXT)')
 	cursor.execute("select * from users where username='%s'" % username)
 	user = cursor.fetchone()
 	return userDict(user)
