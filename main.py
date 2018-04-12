@@ -102,8 +102,21 @@ def settings():
 def createpost():
 	if 'username' not in session:
 		return redirect(url_for('signin'))
+	url = 'default.png'
 	if request.method == 'POST':
-		return render_template('post_created.html' , msg = dbHandler.insertPost(request, session['username']))
+		postID = dbHandler.insertPost(request, session['username'], 'default.png')
+		try:
+			img = request.files['project_photo']
+			if img and allowed_file(img.filename):
+				filename = str(postID) + "." + img.filename.rsplit('.', 1)[1].lower()
+				#Feature can be added to remove old photo
+				url = filename
+				img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+			dbHandler.updatePostImg(id = postID, img = url)
+			return redirect(url_for('dashboard'))
+		except:
+			dbHandler.updatePostImg(id = postID, img = url)
+			return redirect(url_for('dashboard'))
 	else:
 		return render_template('postIt.html')
 
@@ -152,7 +165,7 @@ def editFinal(id):
 def project(id):
 	post = dbHandler.getPostInfo(id)
 	if post:
-		return render_template('project_display.html', id = post['id'], title = post['title'], about = post['about'], fund = post['fund'])
+		return render_template('project_display.html', id = post['id'], title = post['title'], about = post['about'], fund = post['fund'], duration = post['duration'], video = post['video'], img = post['img'], usr = post['username'])
 	else:
 		return render_template('invalid_project_display.html')
 

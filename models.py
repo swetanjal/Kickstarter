@@ -16,6 +16,9 @@ def postDict(post):
 	dicts['about'] = post[2]
 	dicts['fund'] = post[3]
 	dicts['username'] = post[4]
+	dicts['duration'] = post[5]
+	dicts['img'] = post[6]
+	dicts['video'] = post[7]
 	return dicts
 def backerDict(backer):
 	pass
@@ -70,7 +73,7 @@ def authenticateUser(request):
 	username = request.form['username']
 	password = request.form['password']
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, fullname TEXT, photo blob)')
+	cursor.execute('CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, fullname TEXT, photo TEXT)')
 	sqlQuery = "select password from users where (username = '"+ username + "')"
 	cursor.execute(sqlQuery)
 	row = cursor.fetchone()
@@ -82,22 +85,33 @@ def authenticateUser(request):
 	con.close()
 	return logged_in
 
-def insertPost(request, logged_user):
+def insertPost(request, logged_user, img):
 	con = sql.connect("database.db")
 	title = request.form['title']
 	about = request.form['about']
 	fund = request.form['fund']
+	duration = request.form['duration']
+	video = request.form['video_url']
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, fund integer, username text)')
-	cursor.execute("INSERT INTO posts (id , title, about, fund, username) VALUES (NULL,?,?,?,?)", (title , about, fund, logged_user))
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, fund integer, username text, duration integer, img text, video text)')
+	cursor.execute("INSERT INTO posts (id , title, about, fund, username, duration, img, video) VALUES (NULL,?,?,?,?,?,?,?)", (title , about, fund, logged_user, duration, img, video))
+	con.commit()
+	cursor.execute('SELECT max(id) FROM posts')
+	post_id = cursor.fetchone()[0]
+	con.close()
+	return post_id
+
+def updatePostImg(id , img):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, fund integer, username text, duration integer, img text, video text)')
+	cursor.execute("""UPDATE posts SET img=? WHERE id=?""",(img, id))
 	con.commit()
 	con.close()
-	return ("Post created successfully!")
-
 def getMyCreatedPosts(logged_user):
 	con = sql.connect("database.db")
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, fund integer, username text)')
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, fund integer, username text, duration integer, img text, video text)')
 	cursor.execute("select * from posts where username='%s'" % logged_user)
 	listIt = cursor.fetchall()
 	ret = [] #Returns a list of dictionary objects
@@ -108,7 +122,7 @@ def getMyCreatedPosts(logged_user):
 def deletePost(id):
 	con = sql.connect("database.db")
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, fund integer, username text)')
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, fund integer, username text, duration integer, img text, video text)')
 	cursor.execute("delete from posts where id='%s'" % id)
 	con.commit()
 	con.close()
@@ -116,19 +130,21 @@ def deletePost(id):
 def getPostInfo(id):
 	con = sql.connect("database.db")
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, fund integer, username text)')
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, fund integer, username text, duration integer, img text, video text)')
 	cursor.execute("select * from posts where id='%s'" % id)
 	post = cursor.fetchone()
 	return postDict(post)
 
-def editPost(id_num, request):
+def editPost(id_num, request, img):
 	con = sql.connect("database.db")
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement,title text,about text, fund integer, username text)')
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, fund integer, username text, duration integer, img text, video text)')
 	title = request.form['title']
 	about = request.form['about']
 	fund = request.form['fund']
-	cursor.execute("""UPDATE posts SET title=? ,about=? , fund=? WHERE id=?""",(title,about,fund,id_num))
+	duration = request.form['duration']
+	video = request.form['video_url']
+	cursor.execute("""UPDATE posts SET title=? ,about=? , fund=?, duration=?, img=?, video=? WHERE id=?""",(title,about,fund,duration, img, video, id_num))
 	con.commit()
 	con.close()
 
@@ -148,7 +164,7 @@ def backPost(id_num, logged_user, request):
 def getPost():
 	con = sql.connect("database.db")
 	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, fund integer, username text)')
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, fund integer, username text, duration integer, img text, video text)')
 	cursor.execute("select * from posts")
 	lis = cursor.fetchall()
 	ret = [] #Returns a list of dictionary objects

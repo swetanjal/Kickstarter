@@ -1,3 +1,6 @@
+<a href="{{url_for('home')}}"><h1>Kickstarter</h1></a>
+<a href="{{url_for('logout')}}">Logout</a> 
+<a href="{{url_for('createpost')}}">Create Post</a>
 <h1>{{title}}</h1>
 
 <h3>A Brief description of the project</h3>
@@ -9,4 +12,16 @@
 <h4>Some meta data</h4>
 <p>{{id}}</p>
 
+<img src="/static/{{img}}">
+
+<iframe width="420" height="345" src="{{video}}">
+</iframe>
+
+<h3>Created By</h3>
+<p>{{usr}}</p>
+
+<p>Display other stuff as necessary in proper format</p>
+
 <a href="/project/{{id}}/back">Click to back this project</a>
+
+<a href="{{url_for('dashboard')}}"><h2>My Profile</h2></a>
