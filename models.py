@@ -68,8 +68,6 @@ def updateUser(request, username, img):
 	con.commit()
 	con.close()
 
-
-
 def authenticateUser(request):
 	con = sql.connect("database.db")
 	username = request.form['username']
@@ -164,9 +162,6 @@ def backPost(id_num, logged_user, request):
 	con.close()
 	return "Thanks for supporting us!"
 
-
-
-#Debugger Code
 def getPost():
 	con = sql.connect("database.db")
 	cursor = con.cursor()

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Sign in</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -11,9 +11,9 @@
   <link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet"> 
 </head>
 
-<body style="height:1500px; background-color:#00FFFF;">
+<body style="background-color:#00FFFF;">
 
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
   <a class="navbar-brand text-center center-block" href="#" style="outline:none"><h1 style="font-family:'Gamja Flower',cursive">Kickstarter</h1></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
@@ -28,38 +28,26 @@
     </form>
   </div>
 </nav>
-
-<div class="container">
+<br><br>
+<div class="container bg-primary img-thumbnail">
   <br>
   <br>
   <form action="/Signin" method="post">
     <div class="form-group">
       <label for="username"><h4>Username</h4></label><br>
-      <input type="text" class="form-control" id="user" placeholder="Enter username" name="username" bg-danger required>
+      <input type="text" class="form-control" id="user" placeholder="Enter username" name="username" required>
     </div>
     <div class="form-group">
       <label for="pwd"><h4>Password</h4></label>
       <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password" required>
     </div>
     <br>
-    <button type="submit" class="btn btn-primary">Login</button>
+    <button type="submit" class="btn btn-primary bg-success btn-lg">Login</button>
   </form>
   <br><br>
   {{invalid_credential}}
-  <h3>New to Kickstarter?   <a href="{{url_for('signup')}}" style="outline:none">Signup</a></h3>
+  <h3>New to Kickstarter?   <a href="{{url_for('signup')}}" style="outline:none" class="text-warning">Signup</a></h3>
+  <br><br>
 </div>
 
 </html>
-
-<!--
-<h1>Login</h1>
-<form action="/Signin" method="post">
-	<input type="text" name="username" placeholder="Username" required>
-	<br>
-	<input type="password" name="password" placeholder="Password" required>
-	<br>
-	<input type="submit" value="Log me in!">
-</form>
-
-{{invalid_credential}}
-<p>New to Kickstarter? <a href="{{url_for('signup')}}">Signup</a></p>

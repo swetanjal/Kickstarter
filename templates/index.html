@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+  <title>Kickstarter</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet"> 
 </head>
 
-<body style="height:1500px; background-color:#00FFFF;">
+<body style="background-color:#00FFFF;">
 
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
   <a class="navbar-brand text-center center-block" href="#" style="outline:none"><h1 style="font-family:'Gamja Flower',cursive">Kickstarter</h1></a>
@@ -42,30 +42,30 @@
 
 <!--a href="{{url_for('dashboard')}}"><img src="./static/{{profile_pic}}"></a-->
 
-
-
-
+<br><br>
 <div class="container">
 	<h2>Display some stats here</h2>
 </div>
 
+<br><br>
 <div class="container">
 	<h3>Put some tags here</h3>
 </div>
 
+<br><br>
 <div class="container">
-	<div class="row">
+	<div class="row mb-2">
 		{% for post in posts %}
-		<div class="col" style="background-color:lavender;">
-			<div class="card" style="width:400px">
-				<img class="card-img-top" src="/static/{{post['img']}}" alt="Card image">
-				<div class="card-body">
-					<h4 class="card-title">{{post['title']}}</h4>
-					<p class="card-text">{{post['about']}}</p>
-					<a href="/project/{{post['id']}}" class="btn btn-primary">View More</a>
+			<div class="col-sm-6">
+				<div class="card">
+					<img class="card-img-top img-fluid" width="1280" height="720" src="/static/{{post['img']}}" alt="Card image">
+					<div class="card-body">
+						<h4 class="card-title">{{post['title']}}</h4>
+						<p class="card-text">{{post['about']}}</p>
+						<a href="/project/{{post['id']}}" class="btn btn-primary">View More</a>
+					</div>
 				</div>
 			</div>
-		</div>
 		{% endfor %}
 	</div>
 </div>
