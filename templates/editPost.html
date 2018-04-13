@@ -1,4 +1,77 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Edit Post</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet"> 
+</head>
+
+<body style="background-color:#00FFFF;">
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a class="navbar-brand text-center center-block" href="#" style="outline:none"><h1 style="font-family:'Gamja Flower',cursive">Kickstarter</h1></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav mr-auto">
+   
+    </ul>
+    <form class="form-inline my-2 my-lg-0" action="/action_page.php">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search">
+      <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+<br><br>
+
+<div class="container bg-primary img-thumbnail">
+  <br>
+  <form action="/editPost/{{id}}" method='POST' enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="title"><h4>Title</h4></label><br>
+      <input type="text" class="form-control" id="title" placeholder={{title}} value={{title}} name="title" required>
+    </div>
+    <div class="form-group">
+      <label for="about"><h4>Description</h4></label><br>
+      <input type="text" class="form-control" id="about" placeholder={{des}} value={{des}} name="about" required>
+    </div>
+    <div class="form-group">
+      <label for="fund"><h4>Required Funding</h4></label><br>
+      <input type="text" class="form-control" id="fund" placeholder={{fund}} value={{fund}} name="fund" required>
+    </div>
+    <div class="form-group">
+      <label for="duration"><h4>Estimated days for completion</h4></label>
+      <input type="text" class="form-control" id="duration" placeholder={{duration}} value={{duration}} name="duration" required>
+    </div>
+    <div class="form-group">
+      <label for="project_photo"><h4>Project Poster</h4></label>
+      <br>
+      <input type="file" class=" btn btn-primary bg-warning btn-md" name="project_photo">
+      <!--input type="password" class="form-control" id="verify_password" placeholder="Re-enter Password" name="verify_password" required-->
+    </div>
+    <div class="form-group">
+      <label for="video-url"><h4>Project Promotion Video</h4></label>
+      <br>
+      <input type="text" class="form-control" id="video" placeholder={{video}} value={{video}} name="video_url">
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary bg-success btn-lg" value="Edit Post!">Make Change!</button>
+  </form>
+  <br>
+</div>
+<br>
+<br>
+
+
+
+<!--
+<!DOCTYPE html>
 <html>
 <title>Edit Post</title>
 <form action="/editPost/{{id}}" method='POST' enctype="multipart/form-data">

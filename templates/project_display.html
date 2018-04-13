@@ -1,9 +1,71 @@
-<a href="{{url_for('home')}}"><h1>Kickstarter</h1></a>
-<h1>{{title}}</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Edit Post</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet"> 
+</head>
 
-<h3>A Brief description of the project</h3>
-<p>{{about}}</p>
+<body style="background-color:#00FFFF;">
 
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a class="navbar-brand text-center center-block" href="{{url_for('home')}}" style="outline:none"><h1 style="font-family:'Gamja Flower',cursive">Kickstarter</h1></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav mr-auto">
+    	<li class="nav-item">
+        	<a class="nav-link" style="outline:none" href="{{url_for('dashboard')}}">Dashboard</a>
+      	</li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" action="/action_page.php">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search">
+      <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+<br><br>
+
+
+<div class="container">
+	<div class="row mb-2">
+		<div class="col-sm-6">
+			<div class="card">
+				<img class="card-img-top img-fluid" width="1280" height="720" src="/static/{{img}}" alt="Card image">
+				<div class="card-body">
+					<h1 class="card-title">{{title}}</h1>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-6">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-text">Required Funds: {{fund}}</h4>
+					<br>
+					<h5 class="card-text">{{about}}</h5>
+					<br>
+					<h4 class="card-text">Creator: {{usr}}</h4>
+					<br><br>
+					<a href="/project/{{id}}/back"><h5>Back this project</h5></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+
+
+<!--
 <h3>Funds required to make it a reality</h3>
 <p>{{fund}}</p>
 

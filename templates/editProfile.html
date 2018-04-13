@@ -1,3 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Edit Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet"> 
+</head>
+
+<body style="background-color:#00FFFF;">
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a class="navbar-brand text-center center-block" href="#" style="outline:none"><h1 style="font-family:'Gamja Flower',cursive">Kickstarter</h1></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav mr-auto">
+   
+    </ul>
+    <form class="form-inline my-2 my-lg-0" action="/action_page.php">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search">
+      <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+<br><br>
+<div class="container bg-primary img-thumbnail">
+  <br>
+  <form action="/settings" method="post">
+
+    <div class="form-group">
+      <label for="fullname"><h4>Full Name</h4></label><br>
+      <input type="text" class="form-control" id="fullname" placeholder={{user['fullname']}} value={{user['fullname']}} name="fullname" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="password"><h4>New Password</h4></label>
+      <input type="password" class="form-control" id="pwd" placeholder="Enter New Password" value="" name="password" required>
+    </div>
+
+    <div class="form-group">
+      <label for="verify_password"><h4>Verify New Password</h4></label>
+      <input type="password" class="form-control" id="verify_password" placeholder="Re-enter New Password" value="" name="verify_password" required>
+    </div>
+
+    <div class="form-group">
+      <label for="photo"><h4>Profile Picture</h4></label>
+      <br>
+      <input type="file" class=" btn btn-primary bg-warning btn-md" name="photo">
+    </div>
+
+    <br>
+    <button type="submit" class="btn btn-primary bg-success btn-lg" value="Submit">Apply Changes!</button>
+
+  </form>
+  <br>
+  {{invalid_credential}}
+  <h3><a href="{{url_for('dashboard')}}" style="outline:none" class="text-dark">View Profile</a></h3>
+  <br>
+</div>
+<br>
+<br>
+
+
+<!--
 <h1>Edit Profile</h1>
 <form action="/settings" method="post" enctype="multipart/form-data">
 	

@@ -1,3 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Sign in</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet"> 
+</head>
+
+<body style="background-color:#00FFFF;">
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <a class="navbar-brand text-center center-block" href="#" style="outline:none"><h1 style="font-family:'Gamja Flower',cursive">Kickstarter</h1></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav mr-auto">
+   
+    </ul>
+    <form class="form-inline my-2 my-lg-0" action="/action_page.php">
+      <input class="form-control mr-sm-2" type="text" placeholder="Search">
+      <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+<br><br>
+
+<div class="container bg-primary img-thumbnail">
+  <br>
+  <br>
+  <form action="/project/{{id}}/back" method="post">
+
+    <div class="form-group">
+      <label for="funding"><h4>Support the project: {{title}}</h4></label><br>
+      <input type="text" class="form-control" id="user" placeholder="Enter Amount" name="fund" required>
+    </div>
+
+    <br>
+    <button type="submit" class="btn btn-primary bg-success btn-lg">Back!</button>
+  </form>
+  <br>
+</div>
+
+</html>
+
+<!--
+
 Back the project {{title}}
 
 <form action="/project/{{id}}/back" method="POST">
