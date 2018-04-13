@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<title>Edit Post</title>
+<form action="/editPost/{{id}}" method='POST' enctype="multipart/form-data">
+	Project Title:
+	<br>
+	<input type="text" name="title" value = "{{title}}">
+	<br>
+	Project Description:
+	<br>
+	<input type="text" name="about" value = "{{des}}">
+	<br>
+	Funding Goal:
+	<br>
+	<input type="text" name="fund" value = "{{fund}}">
+	<br>
+	Funding Duration(in days):
+	<br>
+	<input type="text" name="duration" value = "{{duration}}">
+	<br>
+	<label for="project_photo">Project Image</label>
+	<input type="file" name="project_photo">
+	<br>
+	Project Video Url(Please insert the embed link):
+	<br>
+	<input type="text" name="video_url" value = "{{video}}">
+	<br>
+	<input type="submit" value="Edit Post!">
+	<br>
+</form>	
+</html>

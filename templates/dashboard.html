@@ -16,7 +16,7 @@
 		<form action="/deletePost/{{ post['id'] }}" method='POST'>
 			<button name="deleteIt" type="submit">Delete</button>
 		</form>
-		<form action="/editPostCaller/{{ post['id'] }}" method='POST'>
+		<form action="/editPost/{{ post['id'] }}" method='GET'>
 			<button name="editIt" type="submit">Edit</button>
 		</form>
 	{% endfor %}

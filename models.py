@@ -108,6 +108,20 @@ def updatePostImg(id , img):
 	cursor.execute("""UPDATE posts SET img=? WHERE id=?""",(img, id))
 	con.commit()
 	con.close()
+
+def editPost(id_num, img, request):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, fund integer, username text, duration integer, img text, video text)')
+	title = request.form['title']
+	about = request.form['about']
+	fund = request.form['fund']
+	duration = request.form['duration']
+	video = request.form['video_url']
+	cursor.execute("""UPDATE posts SET title=? ,about=? , fund=?, duration=?, img=?, video=? WHERE id=?""",(title,about,fund,duration, img, video, id_num))
+	con.commit()
+	con.close()
+
 def getMyCreatedPosts(logged_user):
 	con = sql.connect("database.db")
 	cursor = con.cursor()
@@ -133,20 +147,10 @@ def getPostInfo(id):
 	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, fund integer, username text, duration integer, img text, video text)')
 	cursor.execute("select * from posts where id='%s'" % id)
 	post = cursor.fetchone()
-	return postDict(post)
+	if post:
+		return postDict(post)
+	return {}
 
-def editPost(id_num, request, img):
-	con = sql.connect("database.db")
-	cursor = con.cursor()
-	cursor.execute('CREATE TABLE IF NOT EXISTS posts(id integer primary key autoincrement, title text, about text, fund integer, username text, duration integer, img text, video text)')
-	title = request.form['title']
-	about = request.form['about']
-	fund = request.form['fund']
-	duration = request.form['duration']
-	video = request.form['video_url']
-	cursor.execute("""UPDATE posts SET title=? ,about=? , fund=?, duration=?, img=?, video=? WHERE id=?""",(title,about,fund,duration, img, video, id_num))
-	con.commit()
-	con.close()
 
 def backPost(id_num, logged_user, request):
 	con = sql.connect("database.db")

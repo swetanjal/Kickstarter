@@ -142,24 +142,37 @@ def deletePost(id):
 	dbHandler.deletePost(id)
 	return redirect(url_for('dashboard'))
 
-@app.route('/editPostCaller/<int:id>', methods = ['POST','GET'])
-def editPostCall(id):
+@app.route('/editPost/<int:id>', methods = ['POST','GET'])
+def editPost(id):
 	post = dbHandler.getPostInfo(id)
-	if post:
-		if 'username' in session:
-			if not session['username'] == post['username']:
-				return "<!DOCTYPE html><h1>NOT PERMITTED</h1>"
-		if 'username' not in session:
-			return "<!DOCTYPE html><h1>NOT PERMITTED</h1>"
-		return render_template('editIt.html', id = post['id'], title = post['title'], des = post['about'], fund = post['fund'])
-	else:
+	if not post:
 		return "Invalid Project Id to edit"
+	if 'username' in session:
+		if not session['username'] == post['username']:
+			return "<!DOCTYPE html><h1>NOT PERMITTED</h1>"
+	if 'username' not in session:
+		return "<!DOCTYPE html><h1>NOT PERMITTED</h1>"
 
-@app.route('/editFinalize/<int:id>', methods = ['POST','GET'])
-def editFinal(id):
 	if request.method == 'POST':
-		dbHandler.editPost(id, request)
+		url = post['img']
+		################################
+		try:
+			img = request.files['project_photo']
+			if img and allowed_file(img.filename):
+				filename = str(post['id']) + "." + img.filename.rsplit('.', 1)[1].lower()
+				#Feature can be added to remove old photo
+				url = filename
+				img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+			dbHandler.editPost(post['id'], url, request)
+			return redirect(url_for('dashboard'))
+		except:
+			dbHandler.editPost(post['id'], url, request)
+			return redirect(url_for('dashboard'))
+		################################
+		#dbHandler.editPost(id, url, request)
 		return redirect(url_for('dashboard'))
+	else:
+		return render_template('editPost.html', id = post['id'], title = post['title'], des = post['about'], fund = post['fund'], video = post['video'], duration = post['duration'])
 
 @app.route('/project/<int:id>', methods = ['GET'])
 def project(id):
