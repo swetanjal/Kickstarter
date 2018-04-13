@@ -9,6 +9,7 @@ def userDict(user):
 	dicts['fullname'] = user[2]
 	dicts['photo'] = user[3]
 	return dicts
+
 def postDict(post):
 	dicts = {}
 	dicts['id'] = post[0]
@@ -20,6 +21,7 @@ def postDict(post):
 	dicts['img'] = post[6]
 	dicts['video'] = post[7]
 	return dicts
+
 def backerDict(backer):
 	pass
 

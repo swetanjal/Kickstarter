@@ -4,6 +4,7 @@
 -> Timestamp on projects
 -> What happens when project expires?
 -> A few filters
+-> Sign in feature NOT WORKING, probably some sessions issue
 Advanced Features:
 -> Payment Gateway
 -> Facebook Login
