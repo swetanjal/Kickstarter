@@ -1,1 +1,10 @@
--> Refreshing is doing the same action twice (Backing project, signup). Solution is to redirect to a page!
+-> A basic Search Bar
+-> Tags table
+-> What happens when project is funded?
+-> Timestamp on projects
+-> What happens when project expires?
+-> A few filters
+Advanced Features:
+-> Payment Gateway
+-> Facebook Login
+-> Send User Emails
