@@ -180,4 +180,3 @@ def getBackers():
 	cursor.execute("select * from backers")
 	lis = cursor.fetchall()
 	return lis	
-#############
