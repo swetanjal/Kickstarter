@@ -35,19 +35,19 @@
   <form action="/editPost/{{id}}" method='POST' enctype="multipart/form-data">
     <div class="form-group">
       <label for="title"><h4>Title</h4></label><br>
-      <input type="text" class="form-control" id="title" placeholder={{title}} value={{title}} name="title" required>
+      <input type="text" class="form-control" id="title" value="{{title}}" name="title" required>
     </div>
     <div class="form-group">
       <label for="about"><h4>Description</h4></label><br>
-      <input type="text" class="form-control" id="about" placeholder={{des}} value={{des}} name="about" required>
+      <input type="text" class="form-control" id="about" value="{{des}}" name="about" required>
     </div>
     <div class="form-group">
       <label for="fund"><h4>Required Funding</h4></label><br>
-      <input type="text" class="form-control" id="fund" placeholder={{fund}} value={{fund}} name="fund" required>
+      <input type="text" class="form-control" id="fund" value="{{fund}}" name="fund" required>
     </div>
     <div class="form-group">
       <label for="duration"><h4>Estimated days for completion</h4></label>
-      <input type="text" class="form-control" id="duration" placeholder={{duration}} value={{duration}} name="duration" required>
+      <input type="text" class="form-control" id="duration" value="{{duration}}" name="duration" required>
     </div>
     <div class="form-group">
       <label for="project_photo"><h4>Project Poster</h4></label>
@@ -58,7 +58,7 @@
     <div class="form-group">
       <label for="video-url"><h4>Project Promotion Video</h4></label>
       <br>
-      <input type="text" class="form-control" id="video" placeholder={{video}} value={{video}} name="video_url">
+      <input type="text" class="form-control" id="video" value="{{video}}"" name="video_url">
     </div>
     <br>
     <button type="submit" class="btn btn-primary bg-success btn-lg" value="Edit Post!">Make Change!</button>
