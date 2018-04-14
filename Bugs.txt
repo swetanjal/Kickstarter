@@ -11,6 +11,8 @@
 -> Restrict image size while displaying otherwise getting non alligned
 -> Profile picture to be displayed on Dashboard
 -> Embed video url in projects display page
+-> Projects page displays "Link to Dashboard" even when user not logged in. Ideally display Signin and Create Project in that case. If user logged in show Logout and Create Project.
+
 Advanced Features:
 -> Payment Gateway
 -> Facebook Login
