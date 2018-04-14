@@ -5,6 +5,10 @@
 -> What happens when project expires?
 -> A few filters
 -> Sign in feature NOT WORKING, probably some sessions issue
+-> Home page should contain link to dashboard
+-> On Signup page, link name should be changed to Signin. It says "Have an Account Signup". Should read "Have an account Signin"
+-> All pages should have Kickstarter as an address which redirects to home page
+-> Restrict image size while displaying otherwise getting non alligned
 Advanced Features:
 -> Payment Gateway
 -> Facebook Login
