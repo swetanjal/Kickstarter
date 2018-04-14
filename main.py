@@ -9,6 +9,12 @@ app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+def find_user():
+	if 'username' in session:
+		user = dbHandler.getUserInfo(session['username'])
+		return session['username'];
+	return ""
+
 @app.route('/')
 def home():
 	#Some backend to be added to do the following:
@@ -50,9 +56,9 @@ def signup():
 					return redirect(url_for('home'))
 			else:
 				invalid_credential = "Email has already been taken!"
-		return render_template('signup.html' , invalid_credential = invalid_credential)
+		return render_template('signup.html' , invalid_credential = invalid_credential, logged_user = find_user())
 	else:
-		return render_template('signup.html' , invalid_credential = invalid_credential)
+		return render_template('signup.html' , invalid_credential = invalid_credential, logged_user = find_user())
 
 @app.route('/Signin' , methods = ['POST' , 'GET'])
 def signin():
@@ -62,9 +68,9 @@ def signin():
 		if status:
 			session['username'] = request.form['username']
 			return redirect(url_for('home'))
-		return render_template('signin.html', invalid_credential = invalid_credential)
+		return render_template('signin.html', invalid_credential = invalid_credential, logged_user = find_user())
 	else:
-		return render_template('signin.html', invalid_credential = "")
+		return render_template('signin.html', invalid_credential = "", logged_user = find_user())
 
 @app.route('/logout')
 def logout():
@@ -92,11 +98,11 @@ def settings():
 				url = filename
 				img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			dbHandler.updateUser(request , session['username'], img = url)
-			return render_template('editProfile.html', msg = "Changes Saved", user = dbHandler.getUserInfo(session['username']))
+			return render_template('editProfile.html', msg = "Changes Saved", user = dbHandler.getUserInfo(session['username']), logged_user = find_user())
 		except:
 			dbHandler.updateUser(request , session['username'], img = url)
-			return render_template('editProfile.html', msg = "Changes Saved", user = dbHandler.getUserInfo(session['username']))
-	return render_template('editProfile.html', msg = "", user = user)	
+			return render_template('editProfile.html', msg = "Changes Saved", user = dbHandler.getUserInfo(session['username']), logged_user = find_user())
+	return render_template('editProfile.html', msg = "", user = user, logged_user = find_user())	
 
 @app.route('/createpost', methods = ['POST', 'GET'])
 def createpost():
@@ -118,7 +124,7 @@ def createpost():
 			dbHandler.updatePostImg(id = postID, img = url)
 			return redirect(url_for('dashboard'))
 	else:
-		return render_template('postIt.html')
+		return render_template('postIt.html', logged_user = find_user())
 
 @app.route('/dashboard')
 def dashboard():
@@ -129,7 +135,7 @@ def dashboard():
 		user_full_name = user['fullname']
 		created_posts = dbHandler.getMyCreatedPosts(session['username'])
 		backed_posts = []
-		return render_template('dashboard.html', img = user['photo'], fullname = user_full_name, created_posts = created_posts, backed_posts = backed_posts)
+		return render_template('dashboard.html', img = user['photo'], fullname = user_full_name, created_posts = created_posts, backed_posts = backed_posts, logged_user = find_user())
 
 @app.route('/deletePost/<int:id>', methods = ['POST','GET'])
 def deletePost(id):
@@ -172,15 +178,15 @@ def editPost(id):
 		#dbHandler.editPost(id, url, request)
 		return redirect(url_for('dashboard'))
 	else:
-		return render_template('editPost.html', id = post['id'], title = post['title'], des = post['about'], fund = post['fund'], video = post['video'], duration = post['duration'])
+		return render_template('editPost.html', id = post['id'], title = post['title'], des = post['about'], fund = post['fund'], video = post['video'], duration = post['duration'], logged_user = find_user())
 
 @app.route('/project/<int:id>', methods = ['GET'])
 def project(id):
 	post = dbHandler.getPostInfo(id)
 	if post:
-		return render_template('project_display.html', id = post['id'], title = post['title'], about = post['about'], fund = post['fund'], duration = post['duration'], video = post['video'], img = post['img'], usr = post['username'])
+		return render_template('project_display.html', id = post['id'], title = post['title'], about = post['about'], fund = post['fund'], duration = post['duration'], video = post['video'], img = post['img'], usr = post['username'], logged_user = find_user())
 	else:
-		return render_template('invalid_project_display.html')
+		return render_template('invalid_project_display.html', logged_user = find_user())
 
 @app.route('/project/<int:id>/back', methods = ['POST' , 'GET'])
 def back(id):
@@ -189,11 +195,11 @@ def back(id):
 		if request.method == 'GET':
 			if 'username' not in session:
 				return redirect(url_for('signin'))
-			return render_template('back_project.html', id = post['id'] , title = post['title'])
+			return render_template('back_project.html', id = post['id'] , title = post['title'], logged_user = find_user())
 		else:
-			return render_template('acknowledge_backing.html', msg = dbHandler.backPost(id , session['username'], request))
+			return render_template('acknowledge_backing.html', msg = dbHandler.backPost(id , session['username'], request), logged_user = find_user())
 	else:
-		return render_template('invlaid_backing.html', msg = "You are attempting to back a project with invalid id!")
+		return render_template('invlaid_backing.html', msg = "You are attempting to back a project with invalid id!", logged_user = find_user())
 
 if __name__ == '__main__':
     app.debug = True

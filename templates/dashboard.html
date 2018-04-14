@@ -14,7 +14,7 @@
 <body style="background-color:#00FFFF;">
 
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-  <a class="navbar-brand" href="{{url_for('home')}}" style="outline:none"><h1 style="font-family:'Gamja Flower',cursive">Kickstarter</h1></a>
+  <a class="navbar-brand text-center center-block" href="{{url_for('home')}}" style="outline:none"><h1 style="font-family:'Gamja Flower',cursive">Kickstarter</h1></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -23,8 +23,17 @@
       <li class="nav-item">
         <a class="nav-link" style="outline:none" href="{{url_for('createpost')}}">Start a Project!</a>
       </li>
+
       <li class="nav-item">
-			<a class="nav-link" style="outline:none" href="{{url_for('logout')}}">Logout</a>
+        <a class="nav-link" style="outline:none" href="{{url_for('dashboard')}}">Dashboard</a>
+      </li>
+      
+      <li class="nav-item">
+        	{% if logged_user == "" %}
+        		<a class="nav-link" style="outline:none" href="{{url_for('signin')}}">Sign in</a>
+			{% else %}
+				<a class="nav-link" style="outline:none" href="{{url_for('logout')}}">Logout</a>
+			{% endif %}
         </a>
       </li>
     </ul>
@@ -35,6 +44,7 @@
   </div>
 </nav>
 
+
 <!--DOCTYPE html>
 <title>{{fullname}}>>My Profile Kickstarter</title>
 <<a href="{{url_for('home')}}"><h1>Kickstarter</h1></a>
@@ -44,10 +54,12 @@
 
 <br>
 <div class="container">
-	<div class="card">
-		<div class="card-body">
-			<h1>{{fullname}}</h1>
-			<h2><a href="{{url_for('settings')}}">Edit Profile</a></h2>
+	<div class="row-fluid">
+		<div class="card">
+			<div class="card-body">
+				<h1>{{fullname}}</h1>
+				<h2><a href="{{url_for('settings')}}">Edit Profile</a></h2>
+			</div>
 		</div>
 	</div>
 </div>
