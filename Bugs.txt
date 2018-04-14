@@ -4,15 +4,15 @@
 -> Timestamp on projects
 -> What happens when project expires?
 -> A few filters
--> Sign in feature NOT WORKING, probably some sessions issue
--> Home page should contain link to dashboard
--> On Signup page, link name should be changed to Signin. It says "Have an Account Signup". Should read "Have an account Signin"
--> All pages should have Kickstarter as an address which redirects to home page
--> Restrict image size while displaying otherwise getting non alligned
--> Profile picture to be displayed on Dashboard
--> Embed video url in projects display page
--> Projects page displays "Link to Dashboard" even when user not logged in. Ideally display Signin and Create Project in that case. If user logged in show Logout and Create Project.
-
+? Sign in feature NOT WORKING, probably some sessions issue
+* Home page should contain link to dashboard
+* On Signup page, link name should be changed to Signin. It says "Have an Account Signup". Should read "Have an account Signin"
+* All pages should have Kickstarter as an address which redirects to home page
+* Restrict image size while displaying otherwise getting non alligned
+* Profile picture to be displayed on Dashboard
+* Embed video url in projects display page
+* Projects page displays "Link to Dashboard" even when user not logged in. Ideally display Signin and Create Project in that case. If user logged in show Logout and Create Project.
+* Edit Post does not display all the fields with correct values
 Advanced Features:
 -> Payment Gateway
 -> Facebook Login
