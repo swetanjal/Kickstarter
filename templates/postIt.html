@@ -15,7 +15,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:black">
   <a class="navbar-brand text-center center-block" href="{{url_for('home')}}" style="outline:none"><h1 style="font-family:'Gamja Flower',cursive">Kickstarter</h1></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" style="outline:none">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
@@ -44,9 +44,6 @@
   </div>
 </nav>
 
-
-
-
 <br><br>
 <div class="container bg-primary img-thumbnail">
   <br>
@@ -71,7 +68,6 @@
       <label for="project_photo"><h4>Project Poster</h4></label>
       <br>
       <input type="file" class=" btn btn-primary bg-warning btn-md" name="project_photo">
-      <!--input type="password" class="form-control" id="verify_password" placeholder="Re-enter Password" name="verify_password" required-->
     </div>
     <div class="form-group">
       <label for="video-url"><h4>Project Promotion Video</h4></label>
@@ -86,47 +82,3 @@
 </div>
 <br>
 <br>
-
-
-
-
-<!--
-<!DOCTYPE html>
-<html>
-<title>Create your Project</title>
-<h2>
-
-    Let’s get started.<br>
-
-    Make a great first impression with your project’s title and image, and set your funding goal, 
-    <br>campaign duration, and project category.
-
-</h2>
-<form action="/createpost" method='POST' enctype="multipart/form-data">
-	Project Title:
-	<br>
-	<input type="text" name="title">
-	<br>
-	Project Description:
-	<br>
-	<input type="text" name="about">
-	<br>
-	Funding Goal:
-	<br>
-	<input type="text" name="fund">
-	<br>
-	Funding Duration(in days):
-	<br>
-	<input type="text" name="duration">
-	<br>
-	<label for="project_photo">Project Image</label>
-	<input type="file" name="project_photo">
-	<br>
-	Project Video Url(Please insert the embed link):
-	<br>
-	<input type="text" name="video_url">
-	<br>
-	<input type="submit" value="Create Post!">
-	<br>
-</form>	
-</html>

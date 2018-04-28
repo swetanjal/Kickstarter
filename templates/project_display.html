@@ -15,7 +15,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:black">
   <a class="navbar-brand text-center center-block" href="{{url_for('home')}}" style="outline:none"><h1 style="font-family:'Gamja Flower',cursive">Kickstarter</h1></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" style="outline:none">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
@@ -74,28 +74,3 @@
 	</div>
 
 </div>
-
-
-
-
-
-<!--
-<h3>Funds required to make it a reality</h3>
-<p>{{fund}}</p>
-
-<h4>Some meta data</h4>
-<p>{{id}}</p>
-
-<img src="/static/{{img}}">
-
-<iframe width="420" height="345" src="{{video}}">
-</iframe>
-
-<h3>Created By</h3>
-<p>{{usr}}</p>
-
-<p>Display other stuff as necessary in proper format</p>
-
-<a href="/project/{{id}}/back">Click to back this project</a>
-
-<a href="{{url_for('dashboard')}}"><h2>My Profile</h2></a>

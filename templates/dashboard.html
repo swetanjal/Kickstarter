@@ -15,7 +15,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:black">
   <a class="navbar-brand text-center center-block" href="{{url_for('home')}}" style="outline:none"><h1 style="font-family:'Gamja Flower',cursive">Kickstarter</h1></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" style="outline:none">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
@@ -44,14 +44,6 @@
   </div>
 </nav>
 
-
-<!--DOCTYPE html>
-<title>{{fullname}}>>My Profile Kickstarter</title>
-<<a href="{{url_for('home')}}"><h1>Kickstarter</h1></a>
-<p><a href="{{url_for('settings')}}">Edit Profile</a></p> 
-<a href="{{url_for('logout')}}">Logout</a> 
-<a href="{{url_for('createpost')}}">Create Post</a-->
-
 <br>
 <div class="container">
 	<div class="row-fluid">
@@ -64,6 +56,7 @@
 	</div>
 </div>
 <br>
+
 <div class="container">
 	<div class="card">
 		<div class="card-body">
@@ -108,23 +101,3 @@
 		{% endfor %}
 	</div>
 </div>
-
-
-<!--
-<ul>
-	{% for post in created_posts %}
-		<a href="/project/{{post['id']}}">{{post['title']}}</a>
-		<form action="/deletePost/{{ post['id'] }}" method='POST'>
-			<button name="deleteIt" type="submit">Delete</button>
-		</form>
-		<form action="/editPost/{{ post['id'] }}" method='GET'>
-			<button name="editIt" type="submit">Edit</button>
-		</form>
-	{% endfor %}
-</ul>-->
-
-
-<!--
-<h2>My Backed Projects</h2>
-
-<img src="/static/{{img}}">
