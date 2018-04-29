@@ -167,3 +167,28 @@ def getBackers():
 	cursor.execute("select * from backers")
 	lis = cursor.fetchall()
 	return lis	
+def insertTag(postId, tag):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("INSERT INTO tags VALUES (?,?)", (postId, tag))
+	con.commit()
+	con.close()
+
+def removeTag(postId):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("delete from tags where project_id='%s'" % postId)
+	con.commit()
+	con.close()
+
+def getTags(postId):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("select tag from tags where project_id='%s'" % postId)
+	lis = cursor.fetchall()
+	ret = {}
+	for tag in lis:
+		ret[tag[0]] = 1
+	con.commit()
+	con.close()	
+	return ret

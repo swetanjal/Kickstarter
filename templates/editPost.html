@@ -53,33 +53,87 @@
       <label for="title"><h4>Title</h4></label><br>
       <input type="text" class="form-control" id="title" value="{{title}}" name="title" required>
     </div>
-
     <div class="form-group">
       <label for="tags"><h4>Tags</h4></label>
+      {% if "technology" in tagTuple %}
+      <div class="checkbox">
+        <label><input type="checkbox" value="technology" name="tags" style="outline:none" checked="checked"> Technology</label>
+      </div>
+      {% else %}
       <div class="checkbox">
         <label><input type="checkbox" value="technology" name="tags" style="outline:none"> Technology</label>
       </div>
+      {%endif%}
+
+      {% if "books" in tagTuple %}
+      <div class="checkbox">
+        <label><input type="checkbox" value="books" name="tags" style="outline:none" checked="checked"> Books</label>
+      </div>
+      {%else%}
       <div class="checkbox">
         <label><input type="checkbox" value="books" name="tags" style="outline:none"> Books</label>
       </div>
+      {%endif%}
+
+      {% if "movies" in tagTuple %}
       <div class="checkbox">
-        <label><input type="checkbox" value="movies" name="tages" style="outline:none"> Movies</label>
+        <label><input type="checkbox" value="movies" name="tags" style="outline:none" checked="checked"> Movies</label>
       </div>
+      {% else %}
+      <div class="checkbox">
+        <label><input type="checkbox" value="movies" name="tags" style="outline:none"> Movies</label>
+      </div>
+      {%endif%}
+
+      {% if "music" in tagTuple %}
+      <div class="checkbox">
+        <label><input type="checkbox" value="music" name="tags" style="outline:none" checked="checked"> Music</label>
+      </div>
+      {% else %}
       <div class="checkbox">
         <label><input type="checkbox" value="music" name="tags" style="outline:none"> Music</label>
       </div>
+      {%endif%}
+
+      {% if "sports" in tagTuple %}
+      <div class="checkbox">
+        <label><input type="checkbox" value="sports" name="tags" style="outline:none" checked="checked"> Sports</label>
+      </div>
+      {% else %}
       <div class="checkbox">
         <label><input type="checkbox" value="sports" name="tags" style="outline:none"> Sports</label>
       </div>
+      {%endif%}
+
+      {% if "fashion" in tagTuple %}
       <div class="checkbox">
-        <label><input type="checkbox" value="fashion" name="tages" style="outline:none"> Fashion</label>
+        <label><input type="checkbox" value="fashion" name="tags" style="outline:none" checked="checked"> Fashion</label>
       </div>
+      {%else%}
       <div class="checkbox">
-        <label><input type="checkbox" value="food" name="tages" style="outline:none"> Food</label>
+        <label><input type="checkbox" value="fashion" name="tags" style="outline:none"> Fashion</label>
       </div>
+      {%endif%}
+
+      {% if "food" in tagTuple %}
       <div class="checkbox">
-        <label><input type="checkbox" value="food" name="tages" style="outline:none"> Travel</label>
+        <label><input type="checkbox" value="food" name="tags" style="outline:none" checked="checked"> Food</label>
       </div>
+      {%else%}
+      <div class="checkbox">
+        <label><input type="checkbox" value="food" name="tags" style="outline:none"> Food</label>
+      </div>
+      {%endif%}
+
+      {% if "travel" in tagTuple %}
+      <div class="checkbox">
+        <label><input type="checkbox" value="travel" name="tags" style="outline:none"> Travel</label>
+      </div>
+      {% else %}
+      <div class="checkbox">
+        <label><input type="checkbox" value="travel" name="tags" style="outline:none"> Travel</label>
+      </div>
+      {%endif%}
     </div>
     
     <div class="form-group">
