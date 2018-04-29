@@ -2,12 +2,26 @@ import os
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, url_for, session
 import models as dbHandler
+from flask_mail import Mail
+from flask_mail import Message
+import smtplib
+import random
+import string
+from passlib.hash import sha256_crypt
 #create the application.
 UPLOAD_FOLDER = './static'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config.update(
+	DEBUG = True,
+	MAIL_SERVER = 'smtp.gmail.com',
+	MAIL_PORT = 465, 
+	MAIL_USE_SSL = True,
+	MAIL_USERNAME = 'swetanjaldatta@gmail.com',
+	MAIL_PASSWORD = 'swetanjaldattaMartinian123')
+mail = Mail(app)
 
 def find_user():
 	if 'username' in session:
@@ -49,16 +63,35 @@ def signup():
 			request.form['username'], request.form['verify_username'])
 		if invalid_credential == "":
 			success = dbHandler.insertUser(request)
+			
 			if success:
-				status = dbHandler.authenticateUser(request)
-				if status:
-					session['username'] = request.form['username']
-					return redirect(url_for('home'))
+				msg = Message("Email Verification Kickstarter",
+                  sender="swetanjaldatta@gmail.com",
+                  recipients=["swetanjal.dutta@research.iiit.ac.in"])
+				token2 = sha256_crypt.encrypt(request.form['username'])
+				token = ""
+				for c in token2:
+					if c == "/" or c==".":
+						continue
+					else:
+						token = token + c
+				msg.html = 'Please verify your email by following this <a href="http://127.0.0.1:5000/verify/'+token+'">link</a>'
+				dbHandler.email_confirmation(request.form['username'], token, False)
+				mail.send(msg)
+				#status = dbHandler.authenticateUser(request)
+				#if status:
+				#	session['username'] = request.form['username']
+				return redirect(url_for('home'))
 			else:
 				invalid_credential = "Email has already been taken!"
 		return render_template('signup.html' , invalid_credential = invalid_credential, logged_user = find_user())
 	else:
 		return render_template('signup.html' , invalid_credential = invalid_credential, logged_user = find_user())
+
+@app.route('/verify/<key>')
+def verify_email(key):
+	dbHandler.email_confirmation_update(key)
+	return render_template('signin.html')
 
 @app.route('/Signin' , methods = ['POST' , 'GET'])
 def signin():
@@ -192,6 +225,12 @@ def editPost(id):
 	else:
 		tags = dbHandler.getTags(post['id'])
 		return render_template('editPost.html', id = post['id'], tagTuple = tags , title = post['title'], des = post['about'], fund = post['fund'], video = post['video'], duration = post['duration'], logged_user = find_user())
+
+#@app.route('/hack')
+#def hack():
+#	r=dbHandler.isEmailConfirmed('RR')
+#	return ""+str(r)
+
 
 @app.route('/project/<int:id>', methods = ['GET'])
 def project(id):

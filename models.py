@@ -36,13 +36,23 @@ def insertUser(request):
     cursor.execute(sqlQuery)
     row = cursor.fetchone()
     if row:
-    	con.close()
-    	return False
+    	if isEmailConfirmed(username) == True:
+    		con.close()
+    		return False
+    delEmailConfirmed(username)
+    delUser(username)
     cur = con.cursor()
     cur.execute("INSERT INTO users (username, password, fullname, photo) VALUES (?,?,?,?)", (username, password, fullname, 'default.png'))
     con.commit()
     con.close()
     return True
+
+def delUser(username):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("delete from users where username='%s'" % username)
+	con.commit()
+	con.close()	
 
 def getUserInfo(username):
 	con = sql.connect("database.db")
@@ -77,9 +87,9 @@ def authenticateUser(request):
 	if row:
 		logged_in = sha256_crypt.verify(password, row[0])
 		if logged_in == True:
-			return logged_in
+			return (logged_in and isEmailConfirmed(username))
 	con.close()
-	return logged_in
+	return (logged_in and isEmailConfirmed(username))
 
 def insertPost(request, logged_user, img):
 	con = sql.connect("database.db")
@@ -202,3 +212,37 @@ def searching(pattern):
 	for elem in lis:
 		post_list.append(getPostInfo(elem[0]))
 	return post_list
+
+def email_confirmation(user, token, conf):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	confirm = 0
+	cursor.execute("INSERT INTO confirm_table VALUES(?, ?, ?)", (user, token, confirm))
+	con.commit()
+	con.close()
+
+def email_confirmation_update(token):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	confirm = 1
+	cursor.execute("UPDATE confirm_table SET confirm= ? where token = ?", (True, token))
+	con.commit()
+	con.close()
+
+def isEmailConfirmed(username):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("select confirm from confirm_table where user = '"+ username+"'")
+	r = cursor.fetchone()
+	if r[0] == 1:
+		return True
+	con.commit()
+	con.close()	
+	return False
+
+def delEmailConfirmed(username):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("delete from confirm_table where user='%s'" % username)
+	con.commit()
+	con.close()
