@@ -21,7 +21,7 @@ def home():
 	#1. Get some stats to be displayed on top.
 	#2. Get the top 5 projects of each category.
 	#The above function needs to be written both in models.py
-	
+
 	#Debugger code to get all posts and backers
 	posts = dbHandler.getPost()
 	backers = dbHandler.getBackers()
@@ -197,7 +197,7 @@ def editPost(id):
 def project(id):
 	post = dbHandler.getPostInfo(id)
 	if post:
-		return render_template('project_display.html', id = post['id'], title = post['title'], about = post['about'], fund = post['fund'], duration = post['duration'], video = post['video'], img = post['img'], usr = post['username'], logged_user = find_user())
+		return render_template('project_display.html', post=post, id = post['id'], title = post['title'], about = post['about'], fund = post['fund'], duration = post['duration'], video = post['video'], img = post['img'], usr = post['username'], logged_user = find_user())
 	else:
 		return render_template('invalid_project_display.html', logged_user = find_user())
 
@@ -213,6 +213,11 @@ def back(id):
 			return render_template('acknowledge_backing.html', msg = dbHandler.backPost(id , session['username'], request), logged_user = find_user())
 	else:
 		return render_template('invlaid_backing.html', msg = "You are attempting to back a project with invalid id!", logged_user = find_user())
+
+@app.route('/search')
+def search():
+	results=dbHandler.searching(request.args.get('pattern'))
+	return render_template('search_page.html', search_results=results)
 
 if __name__ == '__main__':
     app.debug = True
