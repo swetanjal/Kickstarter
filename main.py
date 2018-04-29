@@ -119,9 +119,15 @@ def createpost():
 				url = filename
 				img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			dbHandler.updatePostImg(id = postID, img = url)
+			tags = request.form.getlist('tags')
+			for tag in tags:
+				dbHandler.insertTag(postID, tag)
 			return redirect(url_for('dashboard'))
 		except:
 			dbHandler.updatePostImg(id = postID, img = url)
+			tags = request.form.getlist('tags')
+			for tag in tags:
+				dbHandler.insertTag(postID, tag)
 			return redirect(url_for('dashboard'))
 	else:
 		return render_template('postIt.html', logged_user = find_user())
@@ -158,8 +164,8 @@ def editPost(id):
 			return "<!DOCTYPE html><h1>NOT PERMITTED</h1>"
 	if 'username' not in session:
 		return "<!DOCTYPE html><h1>NOT PERMITTED</h1>"
-
 	if request.method == 'POST':
+		dbHandler.removeTag(post['id'])
 		url = post['img']
 		################################
 		try:
@@ -170,15 +176,22 @@ def editPost(id):
 				url = filename
 				img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 			dbHandler.editPost(post['id'], url, request)
+			tags = request.form.getlist('tags')
+			for tag in tags:
+				dbHandler.insertTag(post['id'], tag)
 			return redirect(url_for('dashboard'))
 		except:
 			dbHandler.editPost(post['id'], url, request)
+			tags = request.form.getlist('tags')
+			for tag in tags:
+				dbHandler.insertTag(post['id'], tag)
 			return redirect(url_for('dashboard'))
 		################################
 		#dbHandler.editPost(id, url, request)
 		return redirect(url_for('dashboard'))
 	else:
-		return render_template('editPost.html', id = post['id'], title = post['title'], des = post['about'], fund = post['fund'], video = post['video'], duration = post['duration'], logged_user = find_user())
+		tags = dbHandler.getTags(post['id'])
+		return render_template('editPost.html', id = post['id'], tagTuple = tags , title = post['title'], des = post['about'], fund = post['fund'], video = post['video'], duration = post['duration'], logged_user = find_user())
 
 @app.route('/project/<int:id>', methods = ['GET'])
 def project(id):
