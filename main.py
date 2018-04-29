@@ -249,7 +249,8 @@ def back(id):
 				return redirect(url_for('signin'))
 			return render_template('back_project.html', id = post['id'] , title = post['title'], logged_user = find_user())
 		else:
-			return render_template('acknowledge_backing.html', msg = dbHandler.backPost(id , session['username'], request), logged_user = find_user())
+			dbHandler.backPost(id , session['username'], request)
+			return render_template('project_display.html', post=post, id = post['id'], title = post['title'], about = post['about'], fund = post['fund'], duration = post['duration'], video = post['video'], img = post['img'], usr = post['username'], logged_user = find_user())
 	else:
 		return render_template('invlaid_backing.html', msg = "You are attempting to back a project with invalid id!", logged_user = find_user())
 
