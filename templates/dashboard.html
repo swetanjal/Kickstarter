@@ -37,8 +37,8 @@
         </a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0" action="/action_page.php">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search">
+    <form class="form-inline my-2 my-lg-0" action="/search" method='GET' enctype="multipart/form-data">
+      <input class="form-control mr-sm-2" type="text" name="pattern" placeholder="Search">
       <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>
@@ -80,6 +80,7 @@
 						<p class="card-text">{{post['about']}}</p>
 						<a href="/project/{{post['id']}}" class="btn btn-primary">View Post</a>
 					</div>
+					
 					<div class="card-footer">
 						<div class="row">
 							<div class="col">
@@ -90,12 +91,12 @@
 
 							<div class="col">
 								<form action="/deletePost/{{ post['id'] }}" method='POST'>
-									<button class="btn btn-primary bg-success btn-md" name="deleteIt" type="submit">Delete</button>
+									<button class="btn btn-primary bg-danger btn-md" style="float: right;" name="deleteIt" type="submit">Delete</button>
 								</form>
 							</div>
 						</div>
-
 					</div>
+
 				</div>
 			</div>
 		{% endfor %}

@@ -192,3 +192,13 @@ def getTags(postId):
 	con.commit()
 	con.close()	
 	return ret
+
+def searching(pattern):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("select project_id from tags where tag='%s'" % pattern)
+	lis=cursor.fetchall()
+	post_list=[]
+	for elem in lis:
+		post_list.append(getPostInfo(elem[0]))
+	return post_list
