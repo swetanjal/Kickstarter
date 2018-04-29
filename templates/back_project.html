@@ -49,8 +49,7 @@
 <div class="container bg-primary img-thumbnail">
   <br>
   <br>
-  <form action="/project/{{id}}/back" method="post">
-
+  <form action="/project/{{id}}/back" onsubmit="return validate(this);" method="post">
     <div class="form-group">
       <label for="funding"><h4>Support the project: {{title}}</h4></label><br>
       <input type="text" class="form-control" id="user" placeholder="Enter Amount" name="fund" required>
@@ -64,11 +63,34 @@
 
 </html>
 
-<!--
-
-Back the project {{title}}
-
-<form action="/project/{{id}}/back" method="POST">
-	<input type="text" name="fund">
-	<input type="submit" value="Submit">
-</form>
+<script>
+  function checkNum(str)
+  {
+    if(str.indexOf('.')!=str.lastIndexOf('.'))
+      return 0;
+    for(var i=0;i<str.length;++i)
+    {
+      var ch=str[i];
+      if(ch>='0' && ch<='9' || ch=='.' || i==0 && ch=='+' || i==0 && ch=='-')
+        continue;
+      return 0;
+    }
+    return 1;
+  }
+  function validate(form)
+  {
+    if(!checkNum(form.fund.value))
+    {
+      alert("Please Enter a Number");
+      return false;
+    }
+    var Value=parseFloat(form.fund.value);
+    if(Value <= 0)
+    {
+      alert("Please Make a Positive Contribution");
+      return false;
+    }
+    alert("Thank You For Your Support");
+    return true;
+  }
+</script>
