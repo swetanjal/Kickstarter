@@ -67,7 +67,7 @@ def signup():
 			if success:
 				msg = Message("Email Verification Kickstarter",
                   sender="swetanjaldatta@gmail.com",
-                  recipients=["swetanjal.dutta@research.iiit.ac.in"])
+                  recipients=[request.form['username']])
 				token2 = sha256_crypt.encrypt(request.form['username'])
 				token = ""
 				for c in token2:
@@ -77,13 +77,17 @@ def signup():
 						token = token + c
 				msg.html = 'Please verify your email by following this <a href="http://127.0.0.1:5000/verify/'+token+'">link</a>'
 				dbHandler.email_confirmation(request.form['username'], token, False)
-				mail.send(msg)
+				invalid_credential = "Your Email-ID seems to be Invalid!"
+				try:
+					mail.send(msg)
+				except:
+					return render_template('signup.html' , invalid_credential = invalid_credential, logged_user = find_user())
 				#status = dbHandler.authenticateUser(request)
 				#if status:
 				#	session['username'] = request.form['username']
 				return redirect(url_for('home'))
 			else:
-				invalid_credential = "Email has already been taken!"
+				invalid_credential = "Email-ID has already been taken!"
 		return render_template('signup.html' , invalid_credential = invalid_credential, logged_user = find_user())
 	else:
 		return render_template('signup.html' , invalid_credential = invalid_credential, logged_user = find_user())
