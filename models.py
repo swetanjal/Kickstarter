@@ -288,3 +288,14 @@ def delEmailConfirmed(username):
 	cursor.execute("delete from confirm_table where user='%s'" % username)
 	con.commit()
 	con.close()
+
+def checkRecipient(recipient):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("select * from users where username='%s'" % recipient)
+	row = cursor.fetchall()
+	if row == []:
+		return False
+	con.commit()
+	con.close()
+	return True

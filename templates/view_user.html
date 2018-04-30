@@ -65,7 +65,7 @@
 					{% if logged_user == user['username'] %}
 						<h2><a href="{{url_for('settings')}}">Edit Profile</a></h2>
 					{% else %}
-						<h2><a>Mail User</a></h2>
+						<h2><a href="{{url_for('mailto', recipient = user['username'])}}">Mail User</a></h2>
 					{% endif %}	
 				</div>
 			</div>
@@ -172,4 +172,11 @@
 			{% endfor %}
 		</div>
 	</div>
+{% endif %}
+
+
+{% if flag == 1 %}
+	<script>
+		alert("Your Message has been Sent");
+	</script>
 {% endif %}
