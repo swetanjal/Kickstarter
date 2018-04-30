@@ -46,122 +46,130 @@
 
 <br>
 <div class="container">
-	<div class="card">
-		<div class="card-body">
-			<h2>Search Results:</h2>
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="card mb-3" style="width:100%">
+  				<img class="card-img-top" src="/static/{{img}}">
+  					<div class="card-img-overlay">
+  					</div>
+			</div>
 		</div>
+
+		<div class="col-sm-2">
+		</div>
+
+		<div class="col-sm-6">
+			<div class="card">
+				<div class="card-body">
+					<h1>{{fullname}}</h1>
+					{% if logged_user == user['username'] %}
+						<h2><a href="{{url_for('settings')}}">Edit Profile</a></h2>
+					{% else %}
+						<h2><a>Mail User</a></h2>
+					{% endif %}	
+				</div>
+			</div>
+		</div>
+
 	</div>
 </div>
 <br>
-<div class="container">
-	<div class="row mb-2">
-		{% if search_results==[] and results_posts_name==[] and users==[] %}
-			<h3>No Results Found. Please Enter a proper tag.</h3>
-		{% endif %}
-		{% if search_results != [] %}
-			<div class="container">
-				<div class="card">
-					<div class="card-body">
-						<h3>Tags Matched</h3>
-					</div>
-				</div>
+
+{% if created_posts != [] %}
+	<div class="container">
+		<div class="card">
+			<div class="card-body">
+				<br>
+				<h2>My Created Projects</h2>
 				<br>
 			</div>
-			{% for post in search_results %}
-				<div class="col-sm-6">
-					<div class="card mb-4">
-						<img class="card-img-top img-fluid" width="1280" height="720" src="/static/{{post['img']}}" alt="Card image">
-						<div class="card-body">
-							<h4 class="card-title">{{post['title']}}</h4>
-							<p class="card-text">{{post['about']}}</p>
-							<a href="/project/{{post['id']}}" class="btn btn-primary">View Post</a>
-						</div>
-
-						{% if logged_user==post['username'] %}
-							<div class="card-footer">
-								<div class="row">
-									<div class="col">
-										<form action="/editPost/{{ post['id'] }}" method='GET'>
-											<button class="btn btn-primary bg-success btn-md" name="editIt" type="submit">Edit</button>
-										</form>
-									</div>
-
-									<div class="col">
-										<form action="/deletePost/{{ post['id'] }}" method='POST'>
-											<button class="btn btn-primary bg-success btn-md" name="deleteIt" type="submit">Delete</button>
-										</form>
-									</div>
-								</div>
-							</div>
-						{% endif %}
-					</div>
-				</div>
-			{% endfor %}
-		{% endif %}
-
-		{% if results_posts_name != [] %}
-			<div class="container">
-				<div class="card">
-					<div class="card-body">
-						<h3>Project Names Matched</h3>
-					</div>
-				</div>
-				<br>
-			</div>
-			{% for post in results_posts_name %}
-				<div class="col-sm-6">
-					<div class="card mb-4">
-						<img class="card-img-top img-fluid" width="1280" height="720" src="/static/{{post['img']}}" alt="Card image">
-						<div class="card-body">
-							<h4 class="card-title">{{post['title']}}</h4>
-							<p class="card-text">{{post['about']}}</p>
-							<a href="/project/{{post['id']}}" class="btn btn-primary">View Post</a>
-						</div>
-
-						{% if logged_user==post['username'] %}
-							<div class="card-footer">
-								<div class="row">
-									<div class="col">
-										<form action="/editPost/{{ post['id'] }}" method='GET'>
-											<button class="btn btn-primary bg-success btn-md" name="editIt" type="submit">Edit</button>
-										</form>
-									</div>
-
-									<div class="col">
-										<form action="/deletePost/{{ post['id'] }}" method='POST'>
-											<button class="btn btn-primary bg-success btn-md" name="deleteIt" type="submit">Delete</button>
-										</form>
-									</div>
-								</div>
-							</div>
-						{% endif %}
-					</div>
-				</div>
-			{% endfor %}
-		{% endif %}
-
-
-		{% if users != [] %}
-			<div class="container">
-				<div class="card">
-					<div class="card-body">
-						<h3>Users Matched</h3>
-					</div>
-				</div>
-				<br>
-			</div>
-			{% for user in users %}
-				<div class="col-sm-6">
-					<div class="card mb-4">
-						<img class="card-img-top img-fluid" width="1280" height="720" src="/static/{{user['photo']}}" alt="Card image">
-						<div class="card-body">
-							<h4 class="card-title">{{user['fullname']}}</h4>
-							<p class="card-text">{{user['username']}}</p>
-							<a href="/user/{{user['username']}}" class="btn btn-primary">Visit User</a>
-						</div>
-					</div>
-				</div>
-			{% endfor %}
-		{% endif %}
+		</div>
 	</div>
-</div>
+	<br>
+
+	<div class="container">
+		<div class="row mb-2">
+			{% for post in created_posts %}
+				<div class="col-sm-6">
+					<div class="card mb-4">
+						<img class="card-img-top img-fluid" width="1280" height="720" src="/static/{{post['img']}}" alt="Card image">
+						<div class="card-body">
+							<h4 class="card-title">{{post['title']}}</h4>
+							<p class="card-text">{{post['about']}}</p>
+							<a href="/project/{{post['id']}}" class="btn btn-primary">View Post</a>
+						</div>
+
+						{% if logged_user == post['username'] %}
+							<div class="card-footer">
+								<div class="row">
+									<div class="col">
+										<form action="/editPost/{{ post['id'] }}" method='GET'>
+											<button class="btn btn-primary bg-success btn-md" name="editIt" type="submit">Edit</button>
+										</form>
+									</div>
+
+									<div class="col">
+										<form action="/deletePost/{{ post['id'] }}" method='POST'>
+											<button class="btn btn-primary bg-danger btn-md" style="float: right;" name="deleteIt" type="submit">Delete</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						{% endif %}
+
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endif %}
+
+{% if backed_posts != [] %}
+	<div class="container">
+		<div class="card">
+			<div class="card-body">
+				<br>
+				<h2>My Backed Projects</h2>
+				<br>
+			</div>
+		</div>
+	</div>
+	<br>
+
+	<div class="container">
+		<div class="row mb-2">
+			{% for post in backed_posts %}
+				<div class="col-sm-6">
+					<div class="card mb-4">
+						<img class="card-img-top img-fluid" width="1280" height="720" src="/static/{{post['img']}}" alt="Card image">
+						<div class="card-body">
+							<h4 class="card-title">{{post['title']}}</h4>
+							<p class="card-text">{{post['about']}}</p>
+							<a href="/project/{{post['id']}}" class="btn btn-primary">View Post</a>
+						</div>
+
+						{% if logged_user == post['username'] %}
+							<div class="card-footer">
+								<div class="row">
+									<div class="col">
+										<form action="/editPost/{{ post['id'] }}" method='GET'>
+											<button class="btn btn-primary bg-success btn-md" name="editIt" type="submit">Edit</button>
+										</form>
+									</div>
+
+									<div class="col">
+										<form action="/deletePost/{{ post['id'] }}" method='POST'>
+											<button class="btn btn-primary bg-danger btn-md" style="float: right;" name="deleteIt" type="submit">Delete</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						{% endif %}
+
+					</div>
+				</div>
+
+			{% endfor %}
+		</div>
+	</div>
+{% endif %}

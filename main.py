@@ -177,7 +177,7 @@ def dashboard():
 		user = dbHandler.getUserInfo(session['username'])
 		user_full_name = user['fullname']
 		created_posts = dbHandler.getMyCreatedPosts(session['username'])
-		backed_posts = []
+		backed_posts = dbHandler.getBackedPosts(session['username'])
 		return render_template('dashboard.html', img = user['photo'], fullname = user_full_name, created_posts = created_posts, backed_posts = backed_posts, logged_user = find_user())
 
 @app.route('/deletePost/<int:id>', methods = ['POST','GET'])
@@ -265,6 +265,14 @@ def search():
 	results_posts_name = dbHandler.searching_post_name(request.args.get('pattern'))
 	users = dbHandler.searching_user(request.args.get('pattern'))
 	return render_template('search_page.html', search_results=results, users = users, results_posts_name = results_posts_name, results_posts_tag = results_posts_tag)
+
+@app.route('/user/<name>')
+def getUserPage(name):
+	user = dbHandler.getUserInfo(name)
+	created_posts = dbHandler.getMyCreatedPosts(name)
+	backed_posts = dbHandler.getBackedPosts(name)
+	return render_template('view_user.html', user = user, img = user['photo'], fullname = user['fullname'], created_posts = created_posts, backed_posts = backed_posts, logged_user = find_user())
+
 
 if __name__ == '__main__':
     app.debug = True
