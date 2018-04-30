@@ -156,7 +156,7 @@
     <div class="form-group">
       <label for="video-url"><h4>Project Promotion Video</h4></label>
       <br>
-      <input type="text" class="form-control" id="video" value="{{video}}"" name="video_url">
+      <input type="text" class="form-control" id="video" value="{{video}}" name="video_url">
     </div>
     <br>
     <button type="submit" class="btn btn-primary bg-success btn-lg" value="Edit Post!">Make Change!</button>
@@ -185,12 +185,12 @@
   {
     if(!checkNum(form.fund.value))
     {
-      alert("Please Enter a Number");
+      alert("Please Enter a Number in the Fund Field");
       return false;
     }
     if(!checkNum(form.duration.value))
     {
-      alert("Please Enter a Number");
+      alert("Please Enter a Number in the Estimated Time Field");
       return false;
     }
     if(form.fund.value<=0)

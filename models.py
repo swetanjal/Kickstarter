@@ -34,6 +34,13 @@ def backerDict(backer):
 	dicts['project_id'] = backer[0]
 	dicts['username'] = backer[1]
 	dicts['fund'] = backer[2]
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("select photo from users where username = '%s'" % dicts['username'])
+	row = cursor.fetchall()
+	dicts['photo'] = row[0][0]
+	con.commit()
+	con.close()
 	return dicts
 
 def insertUser(request):
@@ -130,7 +137,7 @@ def editPost(id_num, img, request):
 	title = request.form['title']
 	about = request.form['about']
 	fund = request.form['fund']
-	duration = request.form['duration']
+	duration = str(datetime.date.today() + datetime.timedelta(days = int(request.form['duration'])))
 	video = request.form['video_url']
 	cursor.execute("""UPDATE posts SET title=? ,about=? , fund=?, duration=?, img=?, video=? WHERE id=?""",(title,about,fund,duration, img, video, id_num))
 	con.commit()
@@ -329,6 +336,53 @@ def getFunds(project_id):
 	total = 0
 	for amt in row:
 		total = total + amt[0]
+	con.commit()
+	con.close()
+	return total
+def getBackingFunds():
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("select fund from backers")
+	row = cursor.fetchall()
+	total = 0
+	for amt in row:
+		total = total + amt[0]
+	con.commit()
+	con.close()
+	return total
+
+def getBackingCount():
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("select * from backers")
+	row = cursor.fetchall()
+	total = 0
+	for amt in row:
+		total = total + 1
+	con.commit()
+	con.close()
+	return total
+
+def getPostCount():
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("select * from posts")
+	row = cursor.fetchall()
+	total = 0
+	for x in row:
+		total = total + 1
+	con.commit()
+	con.close()
+	return total
+
+def getUserCount():
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("select * from users")
+	row = cursor.fetchall()
+	total = 0
+	for x in row:
+		total = total + 1
 	con.commit()
 	con.close()
 	return total

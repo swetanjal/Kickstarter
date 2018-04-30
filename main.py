@@ -1,4 +1,5 @@
 import os
+import datetime
 from werkzeug.utils import secure_filename
 from flask import Flask, render_template, request, redirect, url_for, session
 import models as dbHandler
@@ -39,14 +40,17 @@ def home():
 	#Debugger code to get all posts and backers
 	posts = dbHandler.getPost()
 	backers = dbHandler.getBackers()
-	
+	no_of_posts = dbHandler.getPostCount()
+	no_of_backings = dbHandler.getBackingCount()
+	tot_backing_funds = dbHandler.getBackingFunds()
+	no_of_users = dbHandler.getUserCount()
 	if 'username' in session:
 		user = dbHandler.getUserInfo(session['username'])
-		return render_template('index.html', profile_pic = user['photo'], 
-			                  logged_user = session['username'], posts=posts, backers=backers)
+		return render_template('index.html', no_of_users = no_of_users, profile_pic = user['photo'], 
+			                  logged_user = session['username'], posts=posts, backers=backers, no_of_posts = no_of_posts, no_of_backings = no_of_backings, tot_backing_funds = tot_backing_funds)
 	else:
-		return render_template('index.html', profile_pic = "default.png",
-		                       logged_user = "", posts=posts, backers=backers)
+		return render_template('index.html', profile_pic = "default.png", no_of_users = no_of_users,
+		                       logged_user = "", posts=posts, backers=backers, no_of_backings = no_of_backings, no_of_posts = no_of_posts, tot_backing_funds = tot_backing_funds)
 
 def verify(password, verify_password, username, verify_username):
 	#Put some code to do this. Can include regex
@@ -228,7 +232,7 @@ def editPost(id):
 		return redirect(url_for('dashboard'))
 	else:
 		tags = dbHandler.getTags(post['id'])
-		return render_template('editPost.html', id = post['id'], tagTuple = tags , title = post['title'], des = post['about'], fund = post['fund'], video = post['video'], duration = post['duration'], logged_user = find_user())
+		return render_template('editPost.html', id = post['id'], tagTuple = tags , title = post['title'], des = post['about'], fund = post['fund'], video = post['video'], duration = (datetime.datetime.strptime(str(post['duration']), '%Y-%m-%d').date() - datetime.date.today()).days, logged_user = find_user())
 
 #@app.route('/hack')
 #def hack():
@@ -241,7 +245,7 @@ def project(id):
 	post = dbHandler.getPostInfo(id)
 	backers = dbHandler.getTopBackers(id)
 	funds_collected = dbHandler.getFunds(id)
-	percentage_collected = funds_collected/post['fund'] * 100
+	percentage_collected = (funds_collected*100)/post['fund']
 	tags = dbHandler.getTags(id)
 	if post:
 		return render_template('project_display.html', tags = tags, percentage_collected = percentage_collected, funds_collected = funds_collected, backers = backers, post=post, id = post['id'], title = post['title'], about = post['about'], fund = post['fund'], duration = post['duration'], video = post['video'], img = post['img'], usr = post['username'], logged_user = find_user())
