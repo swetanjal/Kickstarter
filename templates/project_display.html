@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Edit Post</title>
+  <title>Project</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -61,15 +61,25 @@
 		<div class="col-sm-6">
 			<div class="card">
 				<div class="card-body">
-					<h4 class="card-text">Required Funds: {{fund}}</h4>
+					<h4 class="card-text">Required Funds: ${{fund}}</h4>
+          <h4 class="card-text">Funds Obtained: ${{funds_collected}}</h4>
+
 					<br>
-					<h5 class="card-text">{{about}}</h5>
+					<h5 class="card-text">Description:<br>{{about}}</h5>
 					<br>
 					<h4 class="card-text">Creator: {{usr}}</h4>
+          <h4 class="card-text">Expected Finish Date: {{duration}}</h4>
+          <br>
+          <div class="container">
+            <h2>Percentage Funded:</h2>
+              <div class="progress">
+                <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" style="width:{{percentage_collected}}%">{{percentage_collected}}%</div>
+              </div>
+          </div>
 					<br><br>
 					<a href="/project/{{id}}/back"><h5>Back this project</h5></a>
 
-          {% if usr==logged_user %}
+          {% if usr == logged_user %}
             <div class="card-footer">
               <div class="row">
                 <div class="col">
@@ -91,5 +101,45 @@
 			</div>
 		</div>
 	</div>
-
 </div>
+<br>
+
+{% if video != "" %}
+<div class="container">
+  <div class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item" src="{{video}}"></iframe>
+  </div>
+</div>
+{% endif %}
+
+<br><br>
+
+  {% if backers != [] %}
+     <div class="container">
+       <div class="card">
+         <div class="card-body">
+           <h3>Backers</h3>
+         </div>
+       </div>
+      </div>
+      <br>
+    <div class="container">
+    <div class="row mb-2">
+     {% for user in backers %}
+        <div class="col-sm-6">
+          <div class="card mb-4">
+            <img class="card-img-top img-fluid" width="1280" height="720" src="/static/{{user['photo']}}" alt="Card image">
+            <div class="card-body">
+              <h4 class="card-title">{{user['fullname']}}</h4>
+              <p class="card-text">{{user['username']}}</p>
+              <p class="card-text">Contribution: ${{user['fund']}}</p>
+              <a href="/user/{{user['username']}}" class="btn btn-primary">Visit User</a>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+
