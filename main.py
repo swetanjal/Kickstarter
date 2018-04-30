@@ -239,8 +239,12 @@ def editPost(id):
 @app.route('/project/<int:id>', methods = ['GET'])
 def project(id):
 	post = dbHandler.getPostInfo(id)
+	backers = dbHandler.getTopBackers(id)
+	funds_collected = dbHandler.getFunds(id)
+	percentage_collected = funds_collected/post['fund'] * 100
+	tags = dbHandler.getTags(id)
 	if post:
-		return render_template('project_display.html', post=post, id = post['id'], title = post['title'], about = post['about'], fund = post['fund'], duration = post['duration'], video = post['video'], img = post['img'], usr = post['username'], logged_user = find_user())
+		return render_template('project_display.html', tags = tags, percentage_collected = percentage_collected, funds_collected = funds_collected, backers = backers, post=post, id = post['id'], title = post['title'], about = post['about'], fund = post['fund'], duration = post['duration'], video = post['video'], img = post['img'], usr = post['username'], logged_user = find_user())
 	else:
 		return render_template('invalid_project_display.html', logged_user = find_user())
 
@@ -254,7 +258,7 @@ def back(id):
 			return render_template('back_project.html', id = post['id'] , title = post['title'], logged_user = find_user())
 		else:
 			dbHandler.backPost(id , session['username'], request)
-			return render_template('project_display.html', post=post, id = post['id'], title = post['title'], about = post['about'], fund = post['fund'], duration = post['duration'], video = post['video'], img = post['img'], usr = post['username'], logged_user = find_user())
+			return redirect(url_for('project', id = id))
 	else:
 		return render_template('invlaid_backing.html', msg = "You are attempting to back a project with invalid id!", logged_user = find_user())
 

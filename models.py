@@ -1,4 +1,5 @@
 import sqlite3 as sql
+import datetime
 from flask import session
 from passlib.hash import sha256_crypt
 import re
@@ -29,7 +30,11 @@ def postDict(post):
 	return dicts
 
 def backerDict(backer):
-	pass
+	dicts = {}
+	dicts['project_id'] = backer[0]
+	dicts['username'] = backer[1]
+	dicts['fund'] = backer[2]
+	return dicts
 
 def insertUser(request):
     con = sql.connect("database.db")
@@ -102,7 +107,7 @@ def insertPost(request, logged_user, img):
 	title = request.form['title']
 	about = request.form['about']
 	fund = request.form['fund']
-	duration = request.form['duration']
+	duration = str(datetime.date.today() + datetime.timedelta(days = int(request.form['duration'])))
 	video = request.form['video_url']
 	cursor = con.cursor()
 	cursor.execute("INSERT INTO posts (id , title, about, fund, username, duration, img, video) VALUES (NULL,?,?,?,?,?,?,?)", (title , about, fund, logged_user, duration, img, video))
@@ -299,3 +304,31 @@ def checkRecipient(recipient):
 	con.commit()
 	con.close()
 	return True
+
+def getTopBackers(project_id):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("select * from backers where project_id='%s' ORDER BY fund DESC" % project_id)
+	row = cursor.fetchall()
+	backers = []
+	c = 0
+	for backer in row:
+		if c == 5:
+			break
+		backers.append(backerDict(backer))
+		c = c + 1
+	con.commit()
+	con.close()
+	return backers
+
+def getFunds(project_id):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("select fund from backers where project_id='%s' ORDER BY fund DESC" % project_id)
+	row = cursor.fetchall()
+	total = 0
+	for amt in row:
+		total = total + amt[0]
+	con.commit()
+	con.close()
+	return total
