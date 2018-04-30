@@ -1,6 +1,12 @@
 import sqlite3 as sql
 from flask import session
 from passlib.hash import sha256_crypt
+import re
+
+def regexp(expr, item):
+    return re.search(expr, item) is not None
+    reg = re.compile(expr)
+    return reg.search(item) is not None
 
 def userDict(user):
 	dicts = {}
@@ -203,15 +209,41 @@ def getTags(postId):
 	con.close()	
 	return ret
 
-def searching(pattern):
+def searching_post_tag(pattern):
 	con = sql.connect("database.db")
+	con.create_function("REGEXP", 2, regexp)
 	cursor = con.cursor()
-	cursor.execute("select project_id from tags where tag='%s'" % pattern)
+	pattern = "(?i)" + pattern
+	cursor.execute("select project_id from tags where tag REGEXP '%s'" % pattern)
 	lis=cursor.fetchall()
 	post_list=[]
 	for elem in lis:
 		post_list.append(getPostInfo(elem[0]))
 	return post_list
+
+def searching_post_name(pattern):
+	con = sql.connect("database.db")
+	con.create_function("REGEXP", 2, regexp)
+	cursor = con.cursor()
+	pattern = "(?i)" + pattern
+	cursor.execute("select id from posts where title REGEXP '%s'" % pattern)
+	lis=cursor.fetchall()
+	post_list=[]
+	for elem in lis:
+		post_list.append(getPostInfo(elem[0]))
+	return post_list
+
+def searching_user(pattern):
+	con = sql.connect("database.db")
+	con.create_function("REGEXP", 2, regexp)
+	cursor = con.cursor()
+	pattern = "(?i)" + pattern
+	cursor.execute("select username from users where username REGEXP '%s' or fullname REGEXP '%s'" % (pattern, pattern))
+	lis=cursor.fetchall()
+	user_list=[]
+	for elem in lis:
+		user_list.append(getUserInfo(elem[0]))
+	return user_list
 
 def email_confirmation(user, token, conf):
 	con = sql.connect("database.db")

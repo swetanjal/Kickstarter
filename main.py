@@ -260,8 +260,11 @@ def back(id):
 
 @app.route('/search')
 def search():
-	results=dbHandler.searching(request.args.get('pattern'))
-	return render_template('search_page.html', search_results=results)
+	results_posts_tag=dbHandler.searching_post_tag(request.args.get('pattern'))
+	results = results_posts_tag
+	results_posts_name = dbHandler.searching_post_name(request.args.get('pattern'))
+	users = dbHandler.searching_user(request.args.get('pattern'))
+	return render_template('search_page.html', search_results=results, users = users, results_posts_name = results_posts_name, results_posts_tag = results_posts_tag)
 
 if __name__ == '__main__':
     app.debug = True
