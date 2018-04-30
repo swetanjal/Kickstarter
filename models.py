@@ -167,6 +167,16 @@ def backPost(id_num, logged_user, request):
 	con.close()
 	return "Thanks for supporting us!"
 
+def getBackedPosts(username):
+	con = sql.connect("database.db")
+	cursor = con.cursor()
+	cursor.execute("select project_id from backers where username = '%s'" % username)
+	lis=cursor.fetchall()
+	post_list=[]
+	for elem in lis:
+		post_list.append(getPostInfo(elem[0]))
+	return post_list
+
 def getPost():
 	con = sql.connect("database.db")
 	cursor = con.cursor()
