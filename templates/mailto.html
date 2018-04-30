@@ -1,6 +1,69 @@
-<form action="/mailto/{{recipient}}" method="POST">
-	Subject<input type="TEXT" name="subject">
-	<br>
-	Message<input type="textarea" name="message">
-	<input type="submit" value="Send Message">
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Create Post</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet"> 
+</head>
+
+<body style="background-color:#00FFFF;">
+
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color:black">
+  <a class="navbar-brand text-center center-block" href="{{url_for('home')}}" style="outline:none"><h1 style="font-family:'Gamja Flower',cursive">Kickstarter</h1></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" style="outline:none">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" style="outline:none" href="{{url_for('createpost')}}">Start a Project!</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" style="outline:none" href="{{url_for('dashboard')}}">Dashboard</a>
+      </li>
+      
+      <li class="nav-item">
+        	{% if logged_user == "" %}
+        		<a class="nav-link" style="outline:none" href="{{url_for('signin')}}">Sign in</a>
+			{% else %}
+				<a class="nav-link" style="outline:none" href="{{url_for('logout')}}">Logout</a>
+			{% endif %}
+        </a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" action="/search" method='GET' enctype="multipart/form-data">
+      <input class="form-control mr-sm-2" type="text" name="pattern" placeholder="Search">
+      <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+<br><br>
+<div class="container bg-primary img-thumbnail">
+  <br>
+  <form action="/mailto/{{recipient}}" method="POST">
+
+    <div class="form-group">
+      <label for="subject"><h4>Subject</h4></label><br>
+      <input type="text" class="form-control" id="subject" placeholder="Enter Subject" name="subject" required>
+    </div>
+
+    <div class="form-group">
+      <label for="message"><h4>Message</h4></label>
+      <br>
+      <textarea class="form-control" id="message" placeholder="Enter Message" name="message" required></textarea>
+    </div>
+
+    <br>
+    <button type="submit" class="btn btn-primary bg-success btn-lg" value="Send Message">Send Message</button>
+  </form>
+  <br>
+</div>
+<br>
+<br>

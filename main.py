@@ -268,16 +268,24 @@ def search():
 
 @app.route('/user/<name>')
 def getUserPage(name):
+	flag = 0
+	try:
+		flag = request.args['flag']
+		flag = 1
+	except:
+		flag = 0
 	user = dbHandler.getUserInfo(name)
 	created_posts = dbHandler.getMyCreatedPosts(name)
 	backed_posts = dbHandler.getBackedPosts(name)
-	return render_template('view_user.html', user = user, img = user['photo'], fullname = user['fullname'], created_posts = created_posts, backed_posts = backed_posts, logged_user = find_user())
+	return render_template('view_user.html', flag=flag, user = user, img = user['photo'], fullname = user['fullname'], created_posts = created_posts, backed_posts = backed_posts, logged_user = find_user())
 
 @app.route('/mailto/<recipient>' , methods = ['POST', 'GET'])
 def mailto(recipient):
 	#Form contains field subject, message
 	if 'username' not in session:
 		return redirect(url_for('signin'))
+	if not dbHandler.checkRecipient(recipient):
+		return redirect(url_for('home'))
 	if request.method == 'POST':
 		msg = Message(request.form['subject'],
               sender="swetanjaldatta@gmail.com",
@@ -288,7 +296,7 @@ def mailto(recipient):
 			mail.send(msg)
 		except:
 			return redirect(url_for('home'))
-		return redirect(url_for('getUserPage', name = recipient))
+		return redirect(url_for('getUserPage', name = recipient, flag=True))
 	else:
 		return render_template("mailto.html", recipient = recipient)
 
