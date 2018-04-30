@@ -273,6 +273,24 @@ def getUserPage(name):
 	backed_posts = dbHandler.getBackedPosts(name)
 	return render_template('view_user.html', user = user, img = user['photo'], fullname = user['fullname'], created_posts = created_posts, backed_posts = backed_posts, logged_user = find_user())
 
+@app.route('/mailto/<recipient>' , methods = ['POST', 'GET'])
+def mailto(recipient):
+	#Form contains field subject, message
+	if 'username' not in session:
+		return redirect(url_for('signin'))
+	if request.method == 'POST':
+		msg = Message(request.form['subject'],
+              sender="swetanjaldatta@gmail.com",
+              recipients=[recipient])
+		message = request.form['message']
+		msg.html = message + "<br>" + '<a href="http://127.0.0.1:5000/user/' + session['username'] +'">' + "View sender profile</a>" 
+		try:
+			mail.send(msg)
+		except:
+			return redirect(url_for('home'))
+		return redirect(url_for('getUserPage', name = recipient))
+	else:
+		return render_template("mailto.html", recipient = recipient)
 
 if __name__ == '__main__':
     app.debug = True
