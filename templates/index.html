@@ -81,8 +81,19 @@
   </div>
 </div>
 
+<div>
+  <button id="technology">Technology</button>
+  <button id="books">Books</button>
+  <button id="movies">Movies</button>
+  <button id="music">Music</button>
+  <button id="sports">Sports</button>
+  <button id="fashion">Fashion</button>
+  <button id="food">Food</button>
+  <button id="travel">Travel</button>
+</div>
+
 <div class="container">
-	<div class="row mb-2">
+	<div class="row mb-2" id = "display">
 		{% for post in posts %}
 			<div class="col-sm-6">
 				<div class="card mb-4">
@@ -99,3 +110,96 @@
 </div>
 
 <br><br>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $.ajax('http://127.0.0.1:5000/ajax', {
+      success: function(response){
+        $('#display').html(response)
+      },
+      data: { "tag" : "technology" }
+    })
+})
+
+$("#technology").on('click', function(){
+    $.ajax('http://127.0.0.1:5000/ajax', {
+      success: function(response){
+        $('#display').html(response)
+      },
+      data: { "tag" : "technology" }
+    })
+    
+});
+
+$("#books").on('click', function(){
+    $.ajax('http://127.0.0.1:5000/ajax', {
+      success: function(response){
+        $('#display').html(response)
+      },
+      data: { "tag" : "books" }
+    })
+    
+});
+
+$("#music").on('click', function(){
+    $.ajax('http://127.0.0.1:5000/ajax', {
+      success: function(response){
+        $('#display').html(response)
+      },
+      data: { "tag" : "music" }
+    })
+    
+});
+
+$("#movies").on('click', function(){
+    $.ajax('http://127.0.0.1:5000/ajax', {
+      success: function(response){
+        $('#display').html(response)
+      },
+      data: { "tag" : "movies" }
+    })
+    
+});
+
+$("#sports").on('click', function(){
+    $.ajax('http://127.0.0.1:5000/ajax', {
+      success: function(response){
+        $('#display').html(response)
+      },
+      data: { "tag" : "sports" }
+    })
+    
+});
+
+$("#fashion").on('click', function(){
+    $.ajax('http://127.0.0.1:5000/ajax', {
+      success: function(response){
+        $('#display').html(response)
+      },
+      data: { "tag" : "fashion" }
+    })
+    
+});
+
+$("#food").on('click', function(){
+    $.ajax('http://127.0.0.1:5000/ajax', {
+      success: function(response){
+        $('#display').html(response)
+      },
+      data: { "tag" : "food" }
+    })
+    
+});
+
+$("#travel").on('click', function(){
+    $.ajax('http://127.0.0.1:5000/ajax', {
+      success: function(response){
+        $('#display').html(response)
+      },
+      data: { "tag" : "travel" }
+    })
+    
+});
+
+</script>

@@ -30,6 +30,27 @@ def find_user():
 		return session['username'];
 	return ""
 
+@app.route('/ajax')
+def getPosts():
+	results_posts_tag=dbHandler.searching_post_tag(request.args.get('tag'))
+	html = """"""
+	for post in results_posts_tag:
+		if post == {}:
+			continue
+		html = html + """
+		<div class="col-sm-6">
+			<div class="card mb-4">
+				<img class="card-img-top img-fluid" width="1280" height="720" src="/static/"""+post['img']+"""" alt="Card image">
+					<div class="card-body">
+						<h4 class="card-title">"""+str(post['title'])+"""</h4>
+						<p class="card-text">"""+str(post['about'])+"""</p>
+						<a href="/project/"""+str(post['id'])+"""" class="btn btn-primary">View More</a>
+					</div>
+				</div>
+			</div>
+		"""
+	return html
+
 @app.route('/')
 def home():
 	#Some backend to be added to do the following:
