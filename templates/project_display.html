@@ -104,6 +104,18 @@
 </div>
 <br>
 
+{% if tags != [] %}
+<div class = "container">
+  <span class="badge badge-dark"><h3>Tags:</h3></span>
+  <br><br>
+  {% for tag in tags %}
+    <span class="badge badge-pill badge-primary" style="background-color:rgb(24, 0, 145)"><h4>{{tag}}</h4></span>
+  {% endfor %}
+</div>
+{% endif %}
+
+<br>
+
 {% if video != "" %}
 <div class="container">
   <div class="embed-responsive embed-responsive-16by9">
@@ -112,7 +124,7 @@
 </div>
 {% endif %}
 
-<br><br>
+<br>
 
   {% if backers != [] %}
      <div class="container">
