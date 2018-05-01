@@ -104,7 +104,7 @@
 </div>
 <br>
 
-{% if tags != [] %}
+{% if tags != {} %}
 <div class = "container">
   <span class="badge badge-dark"><h3>Tags:</h3></span>
   <br><br>
@@ -113,7 +113,6 @@
   {% endfor %}
 </div>
 {% endif %}
-
 <br>
 
 {% if video != "" %}
