@@ -240,7 +240,10 @@ def searching_post_tag(pattern):
 	lis=cursor.fetchall()
 	post_list=[]
 	for elem in lis:
-		post_list.append(getPostInfo(elem[0]))
+		x = getPostInfo(elem[0])
+		if x == {}:
+			continue
+		post_list.append(x)
 	return post_list
 
 def searching_post_name(pattern):
@@ -252,7 +255,10 @@ def searching_post_name(pattern):
 	lis=cursor.fetchall()
 	post_list=[]
 	for elem in lis:
-		post_list.append(getPostInfo(elem[0]))
+		x = getPostInfo(elem[0])
+		if x == {}:
+			continue
+		post_list.append(x)
 	return post_list
 
 def searching_user(pattern):
@@ -264,7 +270,10 @@ def searching_user(pattern):
 	lis=cursor.fetchall()
 	user_list=[]
 	for elem in lis:
-		user_list.append(getUserInfo(elem[0]))
+		x = getUserInfo(elem[0])
+		if x == {}:
+			continue
+		user_list.append(x)
 	return user_list
 
 def email_confirmation(user, token, conf):

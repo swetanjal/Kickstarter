@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet"> 
 </head>
 
-<body style="background-color:#00FFFF;">
+<body class="bg-dark">
 
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:black">
   <a class="navbar-brand text-center center-block" href="{{url_for('home')}}" style="outline:none"><h1 style="font-family:'Gamja Flower',cursive">Kickstarter</h1></a>
@@ -81,11 +81,6 @@
       </div>
     </div>
 
-    <!--div class="form-group">
-      <label for="about"><h4>Description</h4></label><br>
-      <input type="text" class="form-control" id="about" placeholder="Enter description" name="about" required>
-    </div-->
-
     <div class="form-group">
       <label for="about"><h4>Description</h4></label>
       <br>
@@ -93,7 +88,7 @@
     </div>
 
     <div class="form-group">
-      <label for="fund"><h4>Required Funding(in $)</h4></label><br>
+      <label for="fund"><h4>Required Funding (in $)</h4></label><br>
       <input type="text" class="form-control" id="fund" placeholder="Enter required funding" name="fund" required>
     </div>
     <div class="form-group">
@@ -138,12 +133,12 @@
   {
     if(!checkNum(form.fund.value))
     {
-      alert("Please Enter a Number");
+      alert("Please Enter a Number in the Funds Box");
       return false;
     }
     if(!checkNum(form.duration.value))
     {
-      alert("Please Enter a Number");
+      alert("Please Enter a Number in the Duration field");
       return false;
     }
     if(form.fund.value<=0)
