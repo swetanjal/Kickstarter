@@ -81,10 +81,17 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <!--div class="form-group">
       <label for="about"><h4>Description</h4></label><br>
       <input type="text" class="form-control" id="about" placeholder="Enter description" name="about" required>
+    </div-->
+
+    <div class="form-group">
+      <label for="about"><h4>Description</h4></label>
+      <br>
+      <textarea class="form-control" id="about" placeholder="Enter Description within 120 characters" name="about" required></textarea>
     </div>
+
     <div class="form-group">
       <label for="fund"><h4>Required Funding(in $)</h4></label><br>
       <input type="text" class="form-control" id="fund" placeholder="Enter required funding" name="fund" required>
@@ -149,6 +156,12 @@
       alert("You definetly need a positive amount of time to complete");
       return false;
     }
+    if(form.about.value.length>120)
+    {
+      alert("Description should be within 120 characters");
+      return false;
+    }
     return true;
   }
+
 </script>
