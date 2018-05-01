@@ -382,7 +382,8 @@ def getUserCount():
 	row = cursor.fetchall()
 	total = 0
 	for x in row:
-		total = total + 1
+		if isEmailConfirmed(x[0]):
+			total = total + 1
 	con.commit()
 	con.close()
 	return total

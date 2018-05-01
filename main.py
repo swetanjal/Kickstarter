@@ -20,8 +20,8 @@ app.config.update(
 	MAIL_SERVER = 'smtp.gmail.com',
 	MAIL_PORT = 465, 
 	MAIL_USE_SSL = True,
-	MAIL_USERNAME = 'swetanjaldatta@gmail.com',
-	MAIL_PASSWORD = 'swetanjaldattaMartinian123')
+	MAIL_USERNAME = 'kickstarter.iiith@gmail.com',
+	MAIL_PASSWORD = 'kickstarteriiith')
 mail = Mail(app)
 
 def find_user():
@@ -91,7 +91,7 @@ def signup():
 			
 			if success:
 				msg = Message("Email Verification Kickstarter",
-                  sender="swetanjaldatta@gmail.com",
+                  sender="kickstarter.iiith@gmail.com",
                   recipients=[request.form['username']])
 				token2 = sha256_crypt.encrypt(request.form['username'])
 				token = ""
