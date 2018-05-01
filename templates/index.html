@@ -81,16 +81,20 @@
   </div>
 </div>
 
+<div class="container">
 <div>
-  <button id="technology">Technology</button>
-  <button id="books">Books</button>
-  <button id="movies">Movies</button>
-  <button id="music">Music</button>
-  <button id="sports">Sports</button>
-  <button id="fashion">Fashion</button>
-  <button id="food">Food</button>
-  <button id="travel">Travel</button>
+  <button type="button" class="button btn-danger btn-lg active" style="outline:none;" id="technology">Technology</button>
+  <button type="button" class="button btn-danger btn-lg" style="outline:none;" id="books">Books</button>
+  <button type="button" class="button btn-danger btn-lg" style="outline:none;" id="movies">Movies</button>
+  <button type="button" class="button btn-primary btn-lg" style="outline:none;" id="music">Music</button>
+  <button type="button" class="button btn-primary btn-lg" style="outline:none;" id="sports">Sports</button>
+  <button type="button" class="button btn-primary btn-lg" style="outline:none;" id="fashion">Fashion</button>
+  <button type="button" class="button btn-primary btn-lg" style="outline:none;" id="food">Food</button>
+  <button type="button" class="button btn-primary btn-lg" style="outline:none;" id="travel">Travel</button>
 </div>
+</div>
+
+<br><br>
 
 <div class="container">
 	<div class="row mb-2" id = "display">
@@ -113,7 +117,18 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+var active_now = "#technology";
+
 $(document).ready(function(){
+    active_now = "#technology";
+    $(active_now).css("background-color", "red");
+    $("#books").css("background-color", "blue");
+    $("#movies").css("background-color", "blue");
+    $("#music").css("background-color", "blue");
+    $("#sports").css("background-color", "blue");
+    $("#fashion").css("background-color", "blue");
+    $("#food").css("background-color", "blue");
+    $("#travel").css("background-color", "blue");
     $.ajax('http://127.0.0.1:5000/ajax', {
       success: function(response){
         $('#display').html(response)
@@ -123,6 +138,9 @@ $(document).ready(function(){
 })
 
 $("#technology").on('click', function(){
+    $(active_now).css("background-color", "blue");
+    $(this).css("background-color", "red");
+    active_now = "#technology";
     $.ajax('http://127.0.0.1:5000/ajax', {
       success: function(response){
         $('#display').html(response)
@@ -133,6 +151,9 @@ $("#technology").on('click', function(){
 });
 
 $("#books").on('click', function(){
+    $(active_now).css("background-color", "blue");
+    $(this).css("background-color", "red");
+    active_now = "#books";
     $.ajax('http://127.0.0.1:5000/ajax', {
       success: function(response){
         $('#display').html(response)
@@ -143,6 +164,9 @@ $("#books").on('click', function(){
 });
 
 $("#music").on('click', function(){
+    $(active_now).css("background-color", "blue");
+    $(this).css("background-color", "red");
+    active_now = "#music";
     $.ajax('http://127.0.0.1:5000/ajax', {
       success: function(response){
         $('#display').html(response)
@@ -153,6 +177,9 @@ $("#music").on('click', function(){
 });
 
 $("#movies").on('click', function(){
+    $(active_now).css("background-color", "blue");
+    $(this).css("background-color", "red");
+    active_now = "#movies";
     $.ajax('http://127.0.0.1:5000/ajax', {
       success: function(response){
         $('#display').html(response)
@@ -163,6 +190,9 @@ $("#movies").on('click', function(){
 });
 
 $("#sports").on('click', function(){
+    $(active_now).css("background-color", "blue");
+    $(this).css("background-color", "red");
+    active_now = "#sports";
     $.ajax('http://127.0.0.1:5000/ajax', {
       success: function(response){
         $('#display').html(response)
@@ -173,6 +203,9 @@ $("#sports").on('click', function(){
 });
 
 $("#fashion").on('click', function(){
+    $(active_now).css("background-color", "blue");
+    $(this).css("background-color", "red");
+    active_now = "#fashion";
     $.ajax('http://127.0.0.1:5000/ajax', {
       success: function(response){
         $('#display').html(response)
@@ -183,6 +216,9 @@ $("#fashion").on('click', function(){
 });
 
 $("#food").on('click', function(){
+    $(active_now).css("background-color", "blue");
+    $(this).css("background-color", "red");
+    active_now = "#food";
     $.ajax('http://127.0.0.1:5000/ajax', {
       success: function(response){
         $('#display').html(response)
@@ -193,6 +229,9 @@ $("#food").on('click', function(){
 });
 
 $("#travel").on('click', function(){
+    $(active_now).css("background-color", "blue");
+    $(this).css("background-color", "red");
+    active_now = "#travel";
     $.ajax('http://127.0.0.1:5000/ajax', {
       success: function(response){
         $('#display').html(response)
