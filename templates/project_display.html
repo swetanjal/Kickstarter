@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet"> 
 </head>
 
-<body style="background-color:#00FFFF;">
+<body class="bg-dark">
 
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:black">
   <a class="navbar-brand text-center center-block" href="{{url_for('home')}}" style="outline:none"><h1 style="font-family:'Gamja Flower',cursive">Kickstarter</h1></a>
@@ -89,7 +89,7 @@
                 </div>
 
                 <div class="col">
-                  <form action="/deletePost/{{ post['id'] }}" method='POST'>
+                  <form action="/deletePost/{{ post['id'] }}" onsubmit="return areYouSure();" method='POST'>
                     <button class="btn btn-primary bg-danger btn-md" style="float: right;" name="deleteIt" type="submit">Delete</button>
                   </form>
                 </div>
@@ -106,7 +106,7 @@
 
 {% if tags != {} %}
 <div class = "container">
-  <span class="badge badge-dark"><h3>Tags:</h3></span>
+  <span class="badge badge-light"><h3>Tags:</h3></span>
   <br><br>
   {% for tag in tags %}
     <span class="badge badge-pill badge-primary" style="background-color:rgb(24, 0, 145)"><h4>{{tag}}</h4></span>
@@ -153,4 +153,9 @@
   </div>
   {% endif %}
 
-
+<script type="text/javascript">
+	function areYouSure()
+	{
+		return confirm("Are You Sure you want to Delete this?");
+	}
+</script>

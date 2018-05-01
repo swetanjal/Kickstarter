@@ -289,11 +289,15 @@ def back(id):
 
 @app.route('/search')
 def search():
+	if 'username' in session:
+		logged_user = session['username']
+	else:
+		logged_user = ""
 	results_posts_tag=dbHandler.searching_post_tag(request.args.get('pattern').strip())
 	results = results_posts_tag
 	results_posts_name = dbHandler.searching_post_name(request.args.get('pattern').strip())
 	users = dbHandler.searching_user(request.args.get('pattern').strip())
-	return render_template('search_page.html', search_results=results, users = users, results_posts_name = results_posts_name, results_posts_tag = results_posts_tag)
+	return render_template('search_page.html', search_results=results, users = users, results_posts_name = results_posts_name, results_posts_tag = results_posts_tag, logged_user = logged_user)
 
 @app.route('/user/<name>')
 def getUserPage(name):

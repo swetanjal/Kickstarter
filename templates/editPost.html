@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css?family=Gamja+Flower" rel="stylesheet"> 
 </head>
 
-<body style="background-color:#00FFFF;">
+<body class="bg-dark">
 
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:black">
   <a class="navbar-brand text-center center-block" href="{{url_for('home')}}" style="outline:none"><h1 style="font-family:'Gamja Flower',cursive">Kickstarter</h1></a>
@@ -136,11 +136,6 @@
       {%endif%}
     </div>
     
-    <!--div class="form-group">
-      <label for="about"><h4>Description</h4></label><br>
-      <input type="text" class="form-control" id="about" value="{{des}}" name="about" required>
-    </div-->
-
     <div class="form-group">
       <label for="about"><h4>Description (Within 120 characters)</h4></label>
       <br>
