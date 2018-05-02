@@ -47,7 +47,7 @@
 <br><br>
 <div class="container bg-primary img-thumbnail">
   <br>
-  <form action="/settings" method="post" onsubmit="return validate(this);">
+  <form action="/settings" onsubmit="return validate(this);" method='POST' enctype="multipart/form-data">
 
     <div class="form-group">
       <label for="fullname"><h4>Full Name</h4></label><br>
@@ -69,8 +69,7 @@
       <br>
       <input type="file" class=" btn btn-primary bg-warning btn-md" name="photo">
     </div>
-
-    <br>
+    <div class="container"><h6>{{msg}}</h6></div>
     <button type="submit" class="btn btn-primary bg-success btn-lg" value="Submit">Apply Changes!</button>
 
   </form>

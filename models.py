@@ -139,6 +139,7 @@ def editPost(id_num, img, request):
 	fund = request.form['fund']
 	duration = str(datetime.date.today() + datetime.timedelta(days = int(request.form['duration'])))
 	video = request.form['video_url']
+	removeTag(id_num)
 	cursor.execute("""UPDATE posts SET title=? ,about=? , fund=?, duration=?, img=?, video=? WHERE id=?""",(title,about,fund,duration, img, video, id_num))
 	con.commit()
 	con.close()
@@ -236,7 +237,7 @@ def searching_post_tag(pattern):
 	con.create_function("REGEXP", 2, regexp)
 	cursor = con.cursor()
 	pattern = "(?i)" + pattern
-	cursor.execute("select project_id from tags where tag REGEXP '%s'" % pattern)
+	cursor.execute("select distinct project_id from tags where tag REGEXP '%s'" % pattern)
 	lis=cursor.fetchall()
 	post_list=[]
 	for elem in lis:
