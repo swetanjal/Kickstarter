@@ -158,6 +158,7 @@ def deletePost(id):
 	con = sql.connect("database.db")
 	cursor = con.cursor()
 	cursor.execute("delete from posts where id='%s'" % id)
+	cursor.execute("delete from backers where project_id='%s'" % id)
 	con.commit()
 	con.close()
 
@@ -246,6 +247,8 @@ def searching_post_tag(pattern):
 			continue
 		post_list.append(x)
 	return post_list
+
+
 
 def searching_post_name(pattern):
 	con = sql.connect("database.db")
