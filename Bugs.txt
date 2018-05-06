@@ -1,20 +1,12 @@
--> A basic Search Bar
--> Tags table
--> What happens when project is funded?
--> Timestamp on projects
--> What happens when project expires?
 -> A few filters
 
 * Restrict image size while displaying otherwise getting non alligned
 
 * Profile picture to be displayed on Dashboard
 
-* Embed video url in projects display page
-
-* Projects page displays "Link to Dashboard" even when user not logged in. Ideally display Signin and Create Project in that case. If user logged in show Logout and Create Project.
- ->Dashboard will redirect to a login page if user is not logged in. Is the create post tab really necessary in a view post page?
-
 Advanced Features:
 -> Payment Gateway
+-> Google Signin
 -> Facebook Login
--> Send User Emails
+-> Share on Facebook(Post)
+
