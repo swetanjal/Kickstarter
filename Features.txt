@@ -1,0 +1,7 @@
+-> Authentication(Login, Signup, Logout)
+-> Email Verification(Advanced Feature expected from TA)
+-> Users can create projects for crowd funding.(Project Description, Project Poster, Project Video URL, Project Title)
+-> Users can send email to other users to request funding for their project.(Advanced feature)
+-> Implemented Regex based Search featuring search for users, projects, tags.
+-> Users can back projects.
+-> Fixed all routing issues as pointed out by TA.
